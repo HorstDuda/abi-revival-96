@@ -24,3 +24,75 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ===== 90s GEOCITIES RETRO MODE ===== */
+.retro body,
+.retro main,
+.retro .retro-override {
+  background: #000080 !important;
+  color: #ffff00 !important;
+  font-family: 'Comic Sans MS', 'Courier New', monospace !important;
+}
+
+.retro h1, .retro h2, .retro h3 {
+  color: #00ff00 !important;
+  text-shadow: 2px 2px #ff0000 !important;
+  font-family: 'Comic Sans MS', Impact, cursive !important;
+}
+
+.retro a {
+  color: #ff69b4 !important;
+  text-decoration: underline !important;
+}
+
+.retro a:hover {
+  color: #00ffff !important;
+}
+
+.retro .card-retro {
+  background: #000080 !important;
+  border: 3px ridge #ffff00 !important;
+  color: #00ff00 !important;
+}
+
+.retro .retro-marquee {
+  display: block !important;
+}
+
+.retro nav {
+  background: #800000 !important;
+  border-bottom: 3px solid #ffff00 !important;
+}
+
+.retro img {
+  border: 4px ridge #ff00ff !important;
+  image-rendering: pixelated;
+}
+
+.retro-marquee {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.retro .blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes rainbow {
+  0%   { color: #ff0000; }
+  16%  { color: #ff8800; }
+  33%  { color: #ffff00; }
+  50%  { color: #00ff00; }
+  66%  { color: #0088ff; }
+  83%  { color: #ff00ff; }
+  100% { color: #ff0000; }
+}
+
+.retro h1 {
+  animation: rainbow 2s linear infinite !important;
+  text-shadow: none !important;
+}
