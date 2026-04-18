@@ -1,136 +1,332 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import { alumni } from '@/app/data/alumni';
 
-function AlumniCard({ person }: { person: (typeof alumni)[0] }) {
-  const initials = person.name
-    .split(',')
-    .map((p) => p.trim()[0])
-    .join('');
+type Person = (typeof alumni)[0];
+
+function getInitials(name: string) {
+  return name.split(',').map((p) => p.trim()[0]).join('');
+}
+
+function PersonCard({ person, index }: { person: Person; index: number }) {
+  const [flipped, setFlipped] = useState(false);
+  const initials = getInitials(person.name);
+  const displayName = person.name.split(', ').reverse().join(' ');
 
   return (
     <div
-      className={`relative rounded-xl p-4 border transition-all hover:scale-105 ${
-        person.verified
-          ? 'bg-gradient-to-br from-pink-900/60 to-purple-900/60 border-pink-500/60 shadow-lg shadow-pink-900/20'
-          : person.missing
-          ? 'bg-slate-900/30 border-slate-700/30 opacity-60'
-          : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-500/50'
-      }`}
+      className="flip-card cursor-pointer"
+      style={{
+        height: '200px',
+        animationDelay: `${index * 0.04}s`,
+      }}
+      onClick={() => setFlipped((f) => !f)}
+      title={flipped ? 'Zurückdrehen' : 'Mehr Info'}
     >
-      {/* Avatar */}
-      <div
-        className={`w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center text-xl font-bold ${
-          person.verified
-            ? 'bg-gradient-to-br from-pink-600 to-purple-600 text-white'
-            : 'bg-slate-700 text-slate-400'
-        }`}
-      >
-        {person.verified ? initials : <span className="text-2xl">👤</span>}
-      </div>
-
-      {/* Name */}
-      <p className="text-sm font-semibold text-center text-slate-200 leading-tight">
-        {person.name.split(', ').reverse().join(' ')}
-        {person.geburtsname && (
-          <span className="block text-xs text-slate-500 font-normal">
-            geb. {person.geburtsname}
-          </span>
-        )}
-      </p>
-
-      {/* Verified info */}
-      {person.verified ? (
-        <div className="mt-3 space-y-1">
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-pink-400 font-medium">✓ Verifiziert</span>
+      <div className={`flip-card-inner rounded-2xl${flipped ? ' flipped' : ''}`}>
+        {/* FRONT */}
+        <div
+          className="flip-card-front rounded-2xl flex flex-col items-center justify-center p-4 text-center transition-all"
+          style={{
+            background: person.verified
+              ? 'linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,113,133,0.08))'
+              : person.missing
+              ? 'rgba(255,255,255,0.02)'
+              : 'rgba(255,255,255,0.04)',
+            border: person.verified
+              ? '1px solid rgba(245,158,11,0.3)'
+              : person.missing
+              ? '1px solid rgba(255,255,255,0.04)'
+              : '1px solid rgba(255,255,255,0.08)',
+            boxShadow: person.verified
+              ? '0 0 30px rgba(245,158,11,0.15), inset 0 0 30px rgba(245,158,11,0.03)'
+              : 'none',
+            opacity: person.missing ? 0.45 : 1,
+          }}
+        >
+          {/* Avatar */}
+          <div
+            style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: '800',
+              fontSize: '1.1rem',
+              marginBottom: '0.75rem',
+              flexShrink: 0,
+              background: person.verified
+                ? 'linear-gradient(135deg, #F59E0B, #FB7185)'
+                : 'rgba(255,255,255,0.08)',
+              color: person.verified ? '#080808' : 'rgba(241,240,239,0.35)',
+              boxShadow: person.verified ? '0 4px 20px rgba(245,158,11,0.4)' : 'none',
+            }}
+          >
+            {person.verified ? initials : '?'}
           </div>
-          {person.beruf && (
-            <p className="text-xs text-slate-300 leading-tight">{person.beruf}</p>
-          )}
-          {person.ort && (
-            <p className="text-xs text-slate-400">📍 {person.ort}</p>
-          )}
-          {person.charakteristik && (
-            <p className="text-xs text-slate-500 italic mt-1 leading-tight">
-              &ldquo;{person.charakteristik}&rdquo;
+
+          {/* Name */}
+          <p style={{ fontWeight: '600', fontSize: '0.85rem', lineHeight: 1.3, color: '#F1F0EF' }}>
+            {displayName}
+          </p>
+          {person.geburtsname && (
+            <p style={{ fontSize: '0.7rem', color: 'rgba(241,240,239,0.3)', marginTop: '2px' }}>
+              geb. {person.geburtsname}
             </p>
           )}
-        </div>
-      ) : (
-        <p className="text-xs text-slate-600 text-center mt-2">
-          {person.missing ? '🔍 Noch nicht erreicht' : 'Profil noch nicht beansprucht'}
-        </p>
-      )}
 
-      {/* Claim button for unclaimed */}
-      {!person.claimed && !person.missing && (
-        <a
-          href={`/claim?name=${encodeURIComponent(person.name)}`}
-          className="block mt-3 text-center text-xs px-3 py-1 rounded bg-slate-700/50 text-slate-400 hover:bg-pink-800/50 hover:text-pink-300 transition"
+          {/* Status badge */}
+          {person.verified && (
+            <div style={{ marginTop: '8px', fontSize: '0.65rem', color: '#F59E0B', background: 'rgba(245,158,11,0.1)', padding: '2px 8px', borderRadius: '100px', border: '1px solid rgba(245,158,11,0.2)' }}>
+              ✓ Verifiziert
+            </div>
+          )}
+          {person.missing && (
+            <div style={{ marginTop: '8px', fontSize: '0.65rem', color: 'rgba(241,240,239,0.3)' }}>
+              🔍 Unbekannt
+            </div>
+          )}
+        </div>
+
+        {/* BACK */}
+        <div
+          className="flip-card-back rounded-2xl p-4"
+          style={{
+            background: person.verified
+              ? 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(251,113,133,0.1))'
+              : 'rgba(255,255,255,0.06)',
+            border: person.verified
+              ? '1px solid rgba(245,158,11,0.4)'
+              : '1px solid rgba(255,255,255,0.1)',
+          }}
         >
-          Beanspruchen →
-        </a>
-      )}
+          <p style={{ fontWeight: '700', fontSize: '0.85rem', color: '#F1F0EF', marginBottom: '8px' }}>
+            {displayName}
+          </p>
+          {person.verified ? (
+            <div style={{ fontSize: '0.78rem', lineHeight: 1.6 }}>
+              {person.beruf && <p style={{ color: 'rgba(241,240,239,0.8)' }}>💼 {person.beruf}</p>}
+              {person.ort && <p style={{ color: 'rgba(241,240,239,0.6)' }}>📍 {person.ort}</p>}
+              {person.charakteristik && (
+                <p style={{ color: 'rgba(241,240,239,0.45)', fontStyle: 'italic', marginTop: '6px', fontSize: '0.72rem', lineHeight: 1.4 }}>
+                  &ldquo;{person.charakteristik}&rdquo;
+                </p>
+              )}
+            </div>
+          ) : (
+            <div>
+              <p style={{ color: 'rgba(241,240,239,0.35)', fontSize: '0.78rem', marginBottom: '10px' }}>
+                {person.missing ? 'Noch nicht gefunden.' : 'Profil noch nicht beansprucht.'}
+              </p>
+              {!person.missing && (
+                <a
+                  href={`/claim?name=${encodeURIComponent(person.name)}`}
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    display: 'inline-block',
+                    padding: '5px 12px',
+                    background: 'linear-gradient(135deg, #F59E0B, #FB7185)',
+                    color: '#080808',
+                    borderRadius: '100px',
+                    fontSize: '0.72rem',
+                    fontWeight: '700',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Profil beanspruchen →
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
 
+const FILTERS = ['Alle', 'Verifiziert', 'Unbekannt'] as const;
+type Filter = (typeof FILTERS)[number];
+
 export default function PersonenPage() {
-  const claimed = alumni.filter((a) => a.claimed).length;
-  const missing = alumni.filter((a) => a.missing).length;
-  const reached = alumni.filter((a) => !a.missing).length;
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState<Filter>('Alle');
+
+  const claimed  = alumni.filter((a) => a.claimed).length;
+  const missing  = alumni.filter((a) => a.missing).length;
+  const reached  = alumni.filter((a) => !a.missing).length;
+  const verified = alumni.filter((a) => a.verified).length;
+
+  const filtered = useMemo(() => {
+    let list = alumni;
+    if (filter === 'Verifiziert') list = list.filter((a) => a.verified);
+    else if (filter === 'Unbekannt') list = list.filter((a) => a.missing);
+    if (query.trim()) {
+      const q = query.toLowerCase();
+      list = list.filter(
+        (a) =>
+          a.name.toLowerCase().includes(q) ||
+          (a.geburtsname?.toLowerCase().includes(q) ?? false) ||
+          (a.beruf?.toLowerCase().includes(q) ?? false) ||
+          (a.ort?.toLowerCase().includes(q) ?? false),
+      );
+    }
+    // Verified first, then by name
+    return [...list].sort((a, b) => {
+      if (a.verified && !b.verified) return -1;
+      if (!a.verified && b.verified) return 1;
+      if (a.missing && !b.missing) return 1;
+      if (!a.missing && b.missing) return -1;
+      return a.name.localeCompare(b.name, 'de');
+    });
+  }, [query, filter]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-10">
-          <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-pink-400 to-orange-300 bg-clip-text text-transparent">
+    <main className="mesh-bg min-h-screen py-16 px-6">
+      {/* ─── RETRO CONTENT ─── */}
+      <div className="retro-show text-center mb-8">
+        <h1>DIE STUFE</h1>
+        <p>Gymnasium Marienstatt · Abi 1996</p>
+        <div className="retro-construction">🚧 DATENBANK WIRD GELADEN... 🚧</div>
+      </div>
+
+      <div className="container mx-auto max-w-6xl">
+        {/* ─── HEADER ─── */}
+        <div className="text-center mb-12 retro-hide">
+          <p style={{ color: 'rgba(241,240,239,0.3)', fontSize: '0.78rem', letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+            Gymnasium Marienstatt · Abi 1996
+          </p>
+          <h1
+            className="font-black mb-8"
+            style={{ fontSize: 'clamp(3rem,8vw,6rem)', background: 'linear-gradient(135deg, #F59E0B, #FB7185)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', lineHeight: 1, letterSpacing: '-0.02em' }}
+          >
             Die Stufe
           </h1>
-          <p className="text-slate-400">Gymnasium Marienstatt · Abi 1996</p>
-          <div className="flex gap-6 justify-center mt-4 text-sm">
-            <span className="text-slate-300">
-              <span className="text-pink-400 font-bold">{reached}</span> erreicht
-            </span>
-            <span className="text-slate-300">
-              <span className="text-green-400 font-bold">{claimed}</span> verifiziert
-            </span>
-            <span className="text-slate-300">
-              <span className="text-yellow-400 font-bold">{missing}</span> vermisst
-            </span>
+
+          {/* Stats */}
+          <div className="flex flex-wrap gap-8 justify-center mb-10">
+            {[
+              { value: reached,  label: 'Erreicht',    color: '#F1F0EF' },
+              { value: verified, label: 'Verifiziert', color: '#F59E0B' },
+              { value: claimed,  label: 'Claimed',     color: '#34D399' },
+              { value: missing,  label: 'Vermisst',    color: '#FB7185' },
+            ].map(({ value, label, color }) => (
+              <div key={label} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: '900', color }}>{value}</div>
+                <div style={{ fontSize: '0.75rem', color: 'rgba(241,240,239,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Search */}
+          <div className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+            <div style={{ position: 'relative', flex: 1 }}>
+              <span style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'rgba(241,240,239,0.3)' }}>🔍</span>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Name, Beruf, Ort..."
+                style={{
+                  width: '100%',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '100px',
+                  padding: '0.75rem 1rem 0.75rem 2.75rem',
+                  color: '#F1F0EF',
+                  fontSize: '0.9rem',
+                  outline: 'none',
+                }}
+                onFocus={(e) => { e.target.style.borderColor = 'rgba(245,158,11,0.4)'; e.target.style.background = 'rgba(255,255,255,0.07)'; }}
+                onBlur={(e) => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.05)'; }}
+              />
+            </div>
+
+            {/* Filter pills */}
+            <div className="flex gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  style={{
+                    padding: '0.6rem 1rem',
+                    borderRadius: '100px',
+                    fontSize: '0.78rem',
+                    fontWeight: '600',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    background: filter === f ? 'linear-gradient(135deg, #F59E0B, #FB7185)' : 'rgba(255,255,255,0.06)',
+                    color: filter === f ? '#080808' : 'rgba(241,240,239,0.6)',
+                  }}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Verified profiles highlighted */}
-        <div className="mb-10">
-          <h2 className="text-xl font-semibold text-pink-400 mb-4">✓ Verifizierte Profile</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {alumni.filter((a) => a.verified).map((a) => (
-              <AlumniCard key={a.id} person={a} />
-            ))}
-          </div>
-        </div>
-
-        {/* All alumni grid */}
-        <div className="mb-10">
-          <h2 className="text-xl font-semibold text-slate-400 mb-4">Alle Stufenmitglieder</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {alumni.filter((a) => !a.verified && !a.missing).map((a) => (
-              <AlumniCard key={a.id} person={a} />
-            ))}
-          </div>
-        </div>
-
-        {/* Missing */}
-        <div>
-          <h2 className="text-xl font-semibold text-yellow-600 mb-4">🔍 Noch nicht erreicht</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {alumni.filter((a) => a.missing).map((a) => (
-              <AlumniCard key={a.id} person={a} />
-            ))}
-          </div>
-          <p className="text-slate-500 text-sm mt-4">
-            Kennst du jemanden aus dieser Liste? Kontaktiere Markus Böer über die WhatsApp-Gruppe.
+        {/* ─── RESULT COUNT ─── */}
+        {(query || filter !== 'Alle') && (
+          <p className="retro-hide text-center mb-6" style={{ color: 'rgba(241,240,239,0.3)', fontSize: '0.78rem' }}>
+            {filtered.length} {filtered.length === 1 ? 'Person' : 'Personen'} gefunden
           </p>
+        )}
+
+        {/* ─── CARDS GRID ─── */}
+        <div
+          className="grid gap-3"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))' }}
+        >
+          {filtered.map((person, i) => (
+            <PersonCard key={person.id} person={person} index={i} />
+          ))}
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-20 retro-hide">
+            <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</p>
+            <p style={{ color: 'rgba(241,240,239,0.3)' }}>Keine Treffer für &ldquo;{query}&rdquo;</p>
+          </div>
+        )}
+
+        {/* ─── RETRO GRID ─── */}
+        <div className="retro-show">
+          <h2>Alle Stufenmitglieder</h2>
+          <ul style={{ listStyle: 'disc', paddingLeft: '20px' }}>
+            {alumni.map((a) => (
+              <li key={a.id}>
+                {a.name.split(', ').reverse().join(' ')}
+                {a.verified && ' ✓'}
+                {a.missing && ' 🔍'}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-16 retro-hide">
+          <p style={{ color: 'rgba(241,240,239,0.3)', fontSize: '0.85rem', marginBottom: '1rem' }}>
+            Dein Name ist dabei? Beanspruche dein Profil.
+          </p>
+          <a
+            href="/claim"
+            style={{
+              display: 'inline-block',
+              padding: '0.85rem 2.5rem',
+              background: 'linear-gradient(135deg, #F59E0B, #FB7185)',
+              color: '#080808',
+              borderRadius: '100px',
+              fontWeight: '700',
+              fontSize: '0.9rem',
+              textDecoration: 'none',
+            }}
+          >
+            Profil beanspruchen →
+          </a>
         </div>
       </div>
     </main>
