@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
+/* ===== DESIGN TOKENS ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #070b14;
+  --surface: rgba(255, 255, 255, 0.04);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-hover: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --text: #f1f5f9;
+  --text-2: rgba(241, 245, 249, 0.55);
+  --text-3: rgba(241, 245, 249, 0.3);
+  --pink: #ec4899;
+  --pink-2: #f43f5e;
+  --violet: #7c3aed;
+  --indigo: #6366f1;
+  --amber: #f59e0b;
+  --green: #10b981;
+  --background: #070b14;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {
@@ -12,87 +28,540 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== BASE ===== */
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== 90s GEOCITIES RETRO MODE ===== */
-.retro body,
-.retro main,
-.retro .retro-override {
+/* ===== GLASSMORPHISM ===== */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+}
+
+.glass:hover {
+  background: var(--glass-hover);
+  border-color: var(--border-hover);
+}
+
+.glass-sm {
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+  background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-cool {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== GLOW ===== */
+.glow-pink {
+  box-shadow: 0 0 40px rgba(236, 72, 153, 0.25), 0 0 80px rgba(236, 72, 153, 0.1);
+}
+
+.glow-violet {
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.25), 0 0 80px rgba(124, 58, 237, 0.1);
+}
+
+/* ===== AMBIENT ORBS ===== */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb-pink {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.35), transparent 70%);
+}
+
+.orb-violet {
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.3), transparent 70%);
+}
+
+.orb-indigo {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25), transparent 70%);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-14px) rotate(1deg); }
+  66% { transform: translateY(-6px) rotate(-1deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.08); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes number-tick {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Delay utilities */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+
+/* ===== 3D FLIP CARDS ===== */
+.flip-container {
+  perspective: 1100px;
+}
+
+.flip-card {
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.flip-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+/* ===== STEP WIZARD ===== */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.step-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.step-line.active {
+  background: linear-gradient(90deg, #ec4899, #7c3aed);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fade-in 0.2s ease-out;
+  backdrop-filter: blur(4px);
+}
+
+/* ===== BEFORE/AFTER SLIDER ===== */
+.ba-slider {
+  position: relative;
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.ba-after {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.ba-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #fff;
+  cursor: ew-resize;
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  color: #070b14;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: -1px;
+}
+
+/* ===== HORIZONTAL TIMELINE ===== */
+.timeline-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 0;
+  scrollbar-width: none;
+}
+
+.timeline-track::-webkit-scrollbar { display: none; }
+
+.timeline-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ===== TV STATIC OVERLAY ===== */
+@keyframes tv-static-anim {
+  0%   { opacity: 1;   background-position: 0 0;     }
+  10%  { opacity: 0.8; background-position: -5px 3px; }
+  20%  { opacity: 1;   background-position: 2px -5px; }
+  30%  { opacity: 0.6; background-position: -3px 2px; }
+  40%  { opacity: 0.9; background-position: 4px 0;   }
+  50%  { opacity: 0.2; }
+  60%  { opacity: 0.8; }
+  70%  { opacity: 0.5; background-position: 0 -3px;  }
+  80%  { opacity: 1;   }
+  90%  { opacity: 0.7; background-position: 3px 2px; }
+  100% { opacity: 0; }
+}
+
+#tv-static-overlay {
+  background-image:
+    repeating-linear-gradient(0deg,   rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg,  rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 4px),
+    radial-gradient(ellipse at 30% 40%, rgba(0, 200, 0, 0.06), transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(200, 0, 0, 0.04), transparent 60%),
+    #000;
+  animation: tv-static-anim 0.55s ease-out forwards;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+}
+
+/* ===== RETRO MARQUEE ===== */
+.retro-marquee { display: none; }
+
+/* ===============================================================
+   90S GEOCITIES RETRO MODE — .retro class on <html>
+   =============================================================== */
+
+.retro * {
+  transition: none !important;
+}
+
+.retro body {
   background: #000080 !important;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,0,0.025) 2px, rgba(0,200,0,0.025) 4px) !important;
   color: #ffff00 !important;
   font-family: 'Comic Sans MS', 'Courier New', monospace !important;
 }
 
-.retro h1, .retro h2, .retro h3 {
+.retro nav,
+.retro header {
+  background: #800000 !important;
+  background-image: repeating-linear-gradient(90deg, #800000, #990000 50%, #800000) !important;
+  border-bottom: 4px solid #ffff00 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.retro nav a,
+.retro header a {
   color: #00ff00 !important;
-  text-shadow: 2px 2px #ff0000 !important;
-  font-family: 'Comic Sans MS', Impact, cursive !important;
+  text-decoration: underline !important;
+  font-family: 'Comic Sans MS', cursive !important;
+  font-weight: bold !important;
+}
+
+.retro nav a:hover {
+  color: #ffff00 !important;
+}
+
+.retro h1 {
+  font-family: Impact, 'Comic Sans MS', cursive !important;
+  text-shadow: 3px 3px #ff0000 !important;
+  animation: retro-rainbow 1.2s linear infinite !important;
+  letter-spacing: 0.1em !important;
+  -webkit-text-fill-color: initial !important;
+  background: none !important;
+}
+
+.retro h2,
+.retro h3 {
+  color: #00ffff !important;
+  font-family: 'Comic Sans MS', cursive !important;
+  text-shadow: 2px 2px #ff00ff !important;
+  -webkit-text-fill-color: #00ffff !important;
+  background: none !important;
+}
+
+.retro p,
+.retro li,
+.retro label,
+.retro span:not([class*="text-pink"]):not([class*="text-green"]):not([class*="text-yellow"]) {
+  color: #ffff00 !important;
+  font-family: 'Courier New', monospace !important;
 }
 
 .retro a {
   color: #ff69b4 !important;
-  text-decoration: underline !important;
+  text-decoration: underline wavy !important;
 }
 
 .retro a:hover {
   color: #00ffff !important;
 }
 
-.retro .card-retro {
+/* Retro cards — kill glass, add retro borders */
+.retro .glass,
+.retro .glass-sm,
+.retro .glass:hover {
   background: #000080 !important;
   border: 3px ridge #ffff00 !important;
-  color: #00ff00 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 #ff00ff !important;
 }
 
-.retro .retro-marquee {
-  display: block !important;
+.retro [class*="rounded-xl"],
+.retro [class*="rounded-2xl"],
+.retro [class*="rounded-lg"],
+.retro [class*="rounded-full"] {
+  border-radius: 0 !important;
 }
 
-.retro nav {
-  background: #800000 !important;
-  border-bottom: 3px solid #ffff00 !important;
+.retro button:not([class*="text-black"]) {
+  background: #008000 !important;
+  color: #ffff00 !important;
+  border: 2px outset #00ff00 !important;
+  font-family: 'Comic Sans MS', cursive !important;
+  border-radius: 0 !important;
+}
+
+.retro button:not([class*="text-black"]):hover {
+  background: #00cc00 !important;
+  color: #000080 !important;
 }
 
 .retro img {
   border: 4px ridge #ff00ff !important;
-  image-rendering: pixelated;
+  image-rendering: pixelated !important;
+  filter: sepia(0.2) saturate(1.8) !important;
 }
 
-.retro-marquee {
-  display: none;
+.retro input,
+.retro select,
+.retro textarea {
+  background: #000033 !important;
+  border: 2px inset #00ff00 !important;
+  color: #00ff00 !important;
+  font-family: 'Courier New', monospace !important;
+  border-radius: 0 !important;
 }
 
+.retro footer {
+  background: #000080 !important;
+  border-top: 3px ridge #ffff00 !important;
+  color: #ffff00 !important;
+}
+
+/* Kill modern gradients */
+.retro .gradient-text,
+.retro .gradient-text-cool,
+.retro .gradient-text-gold {
+  background: none !important;
+  -webkit-text-fill-color: #00ff00 !important;
+  animation: retro-rainbow 1.5s linear infinite !important;
+}
+
+/* Background overrides */
+.retro main,
+.retro [class*="bg-gradient"] {
+  background: #000033 !important;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% 10%, #000066, transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Ccircle cx='20'  cy='30'  r='1'   fill='%23ffffff' opacity='0.6'/%3E%3Ccircle cx='80'  cy='80'  r='0.7' fill='%23ffffff' opacity='0.4'/%3E%3Ccircle cx='150' cy='20'  r='1.2' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='240' cy='60'  r='0.8' fill='%23ffffff' opacity='0.5'/%3E%3Ccircle cx='50'  cy='180' r='1'   fill='%23ffffff' opacity='0.6'/%3E%3Ccircle cx='200' cy='150' r='0.6' fill='%23ffffff' opacity='0.4'/%3E%3Ccircle cx='270' cy='220' r='1.1' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='120' cy='260' r='0.9' fill='%23ffffff' opacity='0.5'/%3E%3C/svg%3E") !important;
+  background-size: auto, 300px 300px !important;
+}
+
+/* Kill orbs in retro mode */
+.retro .orb { display: none !important; }
+
+/* Retro marquee — show it */
+.retro .retro-marquee { display: block !important; }
+
+/* Retro blink */
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  50%       { opacity: 0; }
 }
 
-.retro .blink {
-  animation: blink 1s step-end infinite;
+.retro .blink { animation: blink 0.9s step-end infinite !important; }
+
+/* Retro rainbow */
+@keyframes retro-rainbow {
+  0%   { color: #ff0000; -webkit-text-fill-color: #ff0000; }
+  14%  { color: #ff8800; -webkit-text-fill-color: #ff8800; }
+  28%  { color: #ffff00; -webkit-text-fill-color: #ffff00; }
+  42%  { color: #00ff00; -webkit-text-fill-color: #00ff00; }
+  56%  { color: #00ffff; -webkit-text-fill-color: #00ffff; }
+  70%  { color: #0088ff; -webkit-text-fill-color: #0088ff; }
+  84%  { color: #ff00ff; -webkit-text-fill-color: #ff00ff; }
+  100% { color: #ff0000; -webkit-text-fill-color: #ff0000; }
 }
 
-@keyframes rainbow {
-  0%   { color: #ff0000; }
-  16%  { color: #ff8800; }
-  33%  { color: #ffff00; }
-  50%  { color: #00ff00; }
-  66%  { color: #0088ff; }
-  83%  { color: #ff00ff; }
-  100% { color: #ff0000; }
+/* Retro nav brand */
+.retro [data-brand] {
+  color: #ffff00 !important;
+  font-family: Impact, cursive !important;
+  animation: retro-rainbow 2s linear infinite !important;
+  -webkit-text-fill-color: initial !important;
+  background: none !important;
+  text-shadow: 2px 2px #ff0000 !important;
 }
 
-.retro h1 {
-  animation: rainbow 2s linear infinite !important;
-  text-shadow: none !important;
+/* Retro countdown */
+.retro [data-countdown] {
+  background: #000033 !important;
+  border: 2px ridge #00ffff !important;
+  color: #00ffff !important;
 }
