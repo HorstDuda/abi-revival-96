@@ -182,6 +182,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── UNSER MOTTO ── */}
+      <section className="py-20 bg-white border-b border-black/[0.06]">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase mb-4" style={{ color: '#E84060' }}>
+                Unser Motto
+              </p>
+              <h2 className="font-black text-3xl md:text-4xl text-[#111827] leading-tight mb-5">
+                Knowledge<br />WAS King!!
+              </h2>
+              <p className="text-[#6b7280] leading-relaxed mb-5">
+                Das offizielle Shirt der Stufe 1996. Der Stüssy King — damals das Symbol unserer Generation. 30 Jahre später kehrt er zurück.
+              </p>
+              <p className="text-[#6b7280] leading-relaxed mb-8">
+                Wer zum Reunion kommt, bekommt das Shirt. Meld dich jetzt an und sichere deinen Platz.
+              </p>
+              <Link
+                href="/claim"
+                className="inline-block px-7 py-3.5 rounded-xl font-bold text-white text-sm transition-all hover:opacity-90"
+                style={{ background: '#E84060' }}
+              >
+                Dabei sein →
+              </Link>
+            </div>
+            <div className="flex justify-center">
+              <div
+                className="relative rounded-2xl overflow-hidden flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)',
+                  width: '320px',
+                  height: '380px',
+                  boxShadow: '0 24px 64px rgba(27,67,50,0.25)',
+                }}
+              >
+                <Image
+                  src="/king.svg"
+                  alt="Stüssy King — Abi 1996 Motto Shirt"
+                  width={220}
+                  height={320}
+                  className="relative z-10 drop-shadow-xl"
+                />
+                <div
+                  className="absolute bottom-0 left-0 right-0 py-3 text-center"
+                  style={{ background: '#E84060' }}
+                >
+                  <span className="text-white text-xs font-black tracking-[0.2em] uppercase">
+                    Abi &apos;96 · Marienstatt
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FEATURES ── */}
       <section className="py-20 bg-[#f8f9fa]">
         <div className="container mx-auto px-4 max-w-5xl">
