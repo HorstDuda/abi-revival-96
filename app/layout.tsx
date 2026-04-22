@@ -4,106 +4,103 @@ import Link from "next/link";
 import RetroToggle from "@/components/RetroToggle";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ABI WELT — Marienstatt 1996",
-  description: "30 Jahre Reunion · Gymnasium Marienstatt · Abi 1996 · Treffen 12./13. Juni 2026",
+  title: "A(B)I REVIVAL — Gymnasium Marienstatt 1996",
+  description: "30 Jahre Homecoming · Gymnasium Marienstatt · Abi 1996 · 12./13. Juni 2026",
 };
 
-const NAV_LINKS = [
-  { href: "/", label: "🏠 Home" },
-  { href: "/personen", label: "👥 Personen" },
-  { href: "/spiele", label: "🎮 Spiele" },
-  { href: "/galerie", label: "📸 Galerie" },
-  { href: "/retro", label: "📼 1996" },
-  { href: "/claim", label: "✋ Profil" },
+const NAV = [
+  { href: "/personen", label: "Personen" },
+  { href: "/spiele",   label: "Spiele" },
+  { href: "/galerie",  label: "Galerie" },
+  { href: "/timeline", label: "Timeline" },
+  { href: "/retro",    label: "1996" },
 ];
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="de"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-slate-900">
+    <html lang="de" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col" style={{ background: 'linear-gradient(160deg, #0a1f0a 0%, #0a0a0a 100%)' }}>
+
         {/* Navigation */}
-        <nav className="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <nav
+          className="sticky top-0 z-40 backdrop-blur-xl border-b"
+          style={{ background: 'rgba(8,15,8,0.88)', borderColor: 'rgba(45,106,79,0.3)' }}
+        >
           <div className="container mx-auto px-4">
-            <div className="flex items-center h-14 gap-1 overflow-x-auto scrollbar-none">
-              {/* Brand */}
+            <div className="flex items-center h-14 gap-1 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
               <Link
                 href="/"
-                className="flex-shrink-0 font-black text-lg bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-transparent mr-3"
+                className="flex-shrink-0 font-black text-xl tracking-tight mr-4 transition-all hover:scale-105"
+                style={{ color: '#E84060', textShadow: '2px 2px 0px rgba(0,0,0,0.6)' }}
               >
-                ABI&apos;96
+                A(B)I&nbsp;REVIVAL
               </Link>
-
-              {/* Divider */}
-              <span className="text-slate-700 flex-shrink-0 mr-3">|</span>
-
-              {/* Nav links */}
-              {NAV_LINKS.slice(1).map((link) => (
+              <span className="flex-shrink-0 mr-3" style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
+              {NAV.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="flex-shrink-0 px-3 py-1.5 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap"
+                  className="flex-shrink-0 px-3 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap hover:text-white hover:bg-white/5"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
                 >
                   {link.label}
                 </Link>
               ))}
-
-              {/* Spacer + CTA */}
               <div className="flex-1" />
               <Link
                 href="/claim"
-                className="flex-shrink-0 px-4 py-1.5 bg-pink-600 hover:bg-pink-500 text-white rounded-lg text-sm font-bold transition whitespace-nowrap"
+                className="flex-shrink-0 px-4 py-2 rounded-xl text-sm font-black text-white transition-all hover:scale-105 whitespace-nowrap"
+                style={{
+                  background: 'linear-gradient(135deg, #E84060, #c02040)',
+                  boxShadow: '0 4px 15px rgba(232,64,96,0.35)',
+                }}
               >
-                Claim Profil
+                Profil Claim ✋
               </Link>
             </div>
           </div>
         </nav>
 
+        {/* Retro marquee (only shown in retro mode via CSS) */}
+        <div className="retro-marquee">
+          <div className="ticker-text font-bold py-2 px-4">
+            ★★★ WILLKOMMEN AUF DER ABI WELT &apos;96 HOMEPAGE ★★★ KNOWLEDGE WAS KING ★★★ GYMNASIUM MARIENSTATT ★★★ 30 JAHRE REUNION ★★★
+          </div>
+        </div>
+
         {/* Countdown banner */}
-        <div className="bg-gradient-to-r from-pink-900/40 to-purple-900/40 border-b border-pink-900/30 py-2 text-center">
-          <p className="text-sm text-pink-300">
-            <span className="font-bold">12./13. Juni 2026</span>
-            <span className="text-slate-400 mx-2">·</span>
+        <div
+          className="py-2 text-center border-b"
+          style={{ background: 'rgba(45,106,79,0.08)', borderColor: 'rgba(45,106,79,0.18)' }}
+        >
+          <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <span className="font-black" style={{ color: '#E84060' }}>12./13. Juni 2026</span>
+            <span className="mx-2" style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
             Grillhütte Schmidthahn
-            <span className="text-slate-400 mx-2">·</span>
-            <span className="text-slate-400">30 Jahre Abi Marienstatt</span>
+            <span className="mx-2" style={{ color: 'rgba(255,255,255,0.25)' }}>·</span>
+            <span style={{ color: 'rgba(255,255,255,0.4)' }}>30 Jahre Abi Marienstatt</span>
           </p>
         </div>
 
-        {/* Page content */}
-        <div className="flex-1">
-          {children}
-        </div>
+        <div className="flex-1">{children}</div>
 
-        {/* Global retro toggle — fixed bottom-right on every page */}
         <RetroToggle />
 
-        {/* Footer */}
-        <footer className="bg-slate-900 border-t border-slate-800 py-6">
+        <footer
+          className="border-t py-6"
+          style={{ background: 'rgba(8,15,8,0.95)', borderColor: 'rgba(45,106,79,0.2)' }}
+        >
           <div className="container mx-auto px-4 text-center">
-            <p className="text-slate-600 text-sm">
-              Gymnasium Marienstatt · Abi 1996 · 30-Jahre-Reunion
+            <p className="font-black text-sm" style={{ color: '#E84060' }}>A(B)I REVIVAL · Gymnasium Marienstatt · 1996</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+              Homecoming 12./13. Juni 2026 · Grillhütte Schmidthahn · Organisiert von Markus Böer
             </p>
-            <p className="text-slate-700 text-xs mt-1">
-              Organisiert von Markus Böer · Kontakt über WhatsApp-Gruppe
+            <p className="visitor-counter mt-2 blink" style={{ fontFamily: 'Comic Sans MS', color: '#00ffff', fontSize: '12px' }}>
+              📧 Webmaster: webmaster@abiwelt96.de · Webring: ← ABI SITES →
             </p>
           </div>
         </footer>

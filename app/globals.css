@@ -1,98 +1,168 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #080f08;
+  --bg2: #0a0a0a;
+  --green: #2D6A4F;
+  --green-light: #52b788;
+  --pink: #E84060;
+  --pink-light: #ff6b9d;
+  --fg: #f0f0f0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(160deg, #0a1f0a 0%, #0a0a0a 100%);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  min-height: 100vh;
 }
 
-/* ===== 90s GEOCITIES RETRO MODE ===== */
+/* Glass morphism */
+.glass {
+  background: rgba(10, 30, 15, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 106, 79, 0.25);
+}
+
+/* Glow */
+.glow-green { box-shadow: 0 0 20px rgba(45,106,79,0.4), 0 0 60px rgba(45,106,79,0.15); }
+.glow-pink  { box-shadow: 0 0 20px rgba(232,64,96,0.5), 0 0 60px rgba(232,64,96,0.2); }
+
+/* ---- Animations ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(232,64,96,0.3); }
+  50%       { box-shadow: 0 0 35px rgba(232,64,96,0.7), 0 0 70px rgba(232,64,96,0.3); }
+}
+@keyframes particle-float {
+  0%   { transform: translateY(0) rotate(0deg);    opacity: 0.5; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+@keyframes ticker {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
+}
+@keyframes tv-static {
+  0%   { opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+@keyframes blink-retro {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+@keyframes rainbow {
+  0%   { color: #ff0000; }
+  14%  { color: #ff7700; }
+  28%  { color: #ffff00; }
+  42%  { color: #00ff00; }
+  57%  { color: #0000ff; }
+  71%  { color: #8b00ff; }
+  85%  { color: #ff00ff; }
+  100% { color: #ff0000; }
+}
+
+.anim-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+.anim-float    { animation: float 4s ease-in-out infinite; }
+.anim-glow     { animation: glow-pulse 2.5s ease-in-out infinite; }
+.ticker-text   { display: inline-block; animation: ticker 22s linear infinite; white-space: nowrap; }
+
+/* Retro marquee hidden by default */
+.retro-marquee { display: none; overflow: hidden; }
+
+/* Visitor counter hidden by default */
+.visitor-counter { display: none; }
+
+/* ===================================================
+   90s GEOCITIES RETRO MODE
+   =================================================== */
 .retro body,
-.retro main,
-.retro .retro-override {
+.retro main {
   background: #000080 !important;
   color: #ffff00 !important;
-  font-family: 'Comic Sans MS', 'Courier New', monospace !important;
-}
-
-.retro h1, .retro h2, .retro h3 {
-  color: #00ff00 !important;
-  text-shadow: 2px 2px #ff0000 !important;
-  font-family: 'Comic Sans MS', Impact, cursive !important;
-}
-
-.retro a {
-  color: #ff69b4 !important;
-  text-decoration: underline !important;
-}
-
-.retro a:hover {
-  color: #00ffff !important;
-}
-
-.retro .card-retro {
-  background: #000080 !important;
-  border: 3px ridge #ffff00 !important;
-  color: #00ff00 !important;
+  font-family: 'Comic Sans MS', 'Courier New', cursive !important;
 }
 
 .retro .retro-marquee {
   display: block !important;
+  background: #ff0000;
+  color: #ffff00;
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: bold;
+  padding: 6px 0;
+  border-top: 3px solid #ffff00;
+  border-bottom: 3px solid #ffff00;
 }
 
-.retro nav {
-  background: #800000 !important;
-  border-bottom: 3px solid #ffff00 !important;
-}
-
-.retro img {
-  border: 4px ridge #ff00ff !important;
-  image-rendering: pixelated;
-}
-
-.retro-marquee {
-  display: none;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.retro .blink {
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes rainbow {
-  0%   { color: #ff0000; }
-  16%  { color: #ff8800; }
-  33%  { color: #ffff00; }
-  50%  { color: #00ff00; }
-  66%  { color: #0088ff; }
-  83%  { color: #ff00ff; }
-  100% { color: #ff0000; }
-}
+.retro .visitor-counter { display: block !important; }
 
 .retro h1 {
-  animation: rainbow 2s linear infinite !important;
-  text-shadow: none !important;
+  animation: rainbow 1.2s linear infinite !important;
+  -webkit-text-fill-color: unset !important;
+  background: none !important;
+  text-shadow: 3px 3px #ff0000 !important;
+  font-family: Impact, 'Comic Sans MS', cursive !important;
 }
+.retro h2, .retro h3, .retro h4 {
+  color: #00ff00 !important;
+  text-shadow: 2px 2px #ff0000 !important;
+  font-family: 'Comic Sans MS', Impact, cursive !important;
+  -webkit-text-fill-color: #00ff00 !important;
+  background: none !important;
+}
+.retro p, .retro span, .retro li, .retro label {
+  color: #ffff00 !important;
+  font-family: 'Comic Sans MS', cursive !important;
+}
+.retro a { color: #ff69b4 !important; text-decoration: underline !important; }
+.retro a:hover { color: #00ffff !important; }
+.retro nav {
+  background: #800000 !important;
+  border-bottom: 4px solid #ffff00 !important;
+}
+.retro footer {
+  background: #800000 !important;
+  border-top: 4px solid #ffff00 !important;
+}
+.retro button, .retro input, .retro select, .retro textarea {
+  background: #c0c0c0 !important;
+  color: #000000 !important;
+  border: 3px ridge #ffffff !important;
+  font-family: 'Comic Sans MS', cursive !important;
+  border-radius: 0 !important;
+  box-shadow: 3px 3px 0 #808080 !important;
+}
+.retro img { border: 4px ridge #ff00ff !important; image-rendering: pixelated; }
+.retro * { border-radius: 0 !important; }
+.retro .glass, .retro [class*="bg-"] {
+  background: #000080 !important;
+  backdrop-filter: none !important;
+  border: 2px ridge #00ff00 !important;
+}
+.retro hr {
+  border: 0;
+  height: 4px;
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) !important;
+  margin: 12px 0;
+}
+.retro .blink { animation: blink-retro 0.8s step-end infinite; }
+.retro .glow-green,
+.retro .glow-pink { box-shadow: 3px 3px 0 #ffff00 !important; }
