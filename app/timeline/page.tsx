@@ -47,18 +47,22 @@ const CAT_LABELS: Record<string, string> = {
 export default function TimelinePage() {
   const [cat, setCat] = useState('all');
 
-  const filtered   = EVENTS.filter((e) => cat === 'all' || e.cat === cat);
-  const years      = [...new Set(filtered.map((e) => e.year))].sort((a, b) => a - b);
+  const filtered = EVENTS.filter((e) => cat === 'all' || e.cat === cat);
+  const years    = [...new Set(filtered.map((e) => e.year))].sort((a, b) => a - b);
 
   return (
-    <main className="min-h-screen py-12" style={{ background: 'linear-gradient(160deg, #0a1f0a 0%, #0a0a0a 100%)' }}>
+    <main className="min-h-screen bg-[#f8f9fa] py-12">
       <div className="container mx-auto px-4">
+
+        {/* Header */}
         <div className="text-center mb-12">
           <h1
-            className="font-black mb-2 tracking-tight"
-            style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', color: '#E84060', textShadow: '3px 3px 0px rgba(0,0,0,0.6)' }}
-          >TIMELINE</h1>
-          <p style={{ color: 'rgba(255,255,255,0.45)' }}>1990 → 2026 · Unsere Geschichte</p>
+            className="font-black mb-2 tracking-tight text-[#111827]"
+            style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}
+          >
+            <span style={{ color: '#2D6A4F' }}>Timeline</span>
+          </h1>
+          <p className="text-[#6b7280]">1990 → 2026 · Unsere Geschichte</p>
         </div>
 
         {/* Filter */}
@@ -67,11 +71,11 @@ export default function TimelinePage() {
             <button
               key={key}
               onClick={() => setCat(key)}
-              className="px-4 py-2 rounded-xl text-sm font-bold transition-all"
+              className="px-4 py-2 rounded-lg text-sm font-semibold transition-all border"
               style={
                 cat === key
-                  ? { background: '#E84060', color: 'white', boxShadow: '0 4px 15px rgba(232,64,96,0.4)' }
-                  : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.1)' }
+                  ? { background: '#2D6A4F', color: 'white', borderColor: '#2D6A4F' }
+                  : { background: 'white', color: '#6b7280', borderColor: 'rgba(0,0,0,0.08)' }
               }
             >
               {label}
@@ -82,10 +86,7 @@ export default function TimelinePage() {
         {/* Timeline */}
         <div className="max-w-3xl mx-auto">
           <div className="relative">
-            <div
-              className="absolute left-8 top-0 bottom-0 w-0.5"
-              style={{ background: 'rgba(45,106,79,0.3)' }}
-            />
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-[#2D6A4F]/20" />
 
             {years.map((year) => {
               const yearEvents = filtered.filter((e) => e.year === year);
@@ -94,13 +95,12 @@ export default function TimelinePage() {
                 <div key={year} className="mb-8">
                   <div className="flex items-center gap-4 mb-3">
                     <div
-                      className="w-16 h-16 rounded-full flex items-center justify-center font-black z-10 flex-shrink-0 transition-all"
-                      style={{
-                        fontSize: '0.75rem',
-                        ...(isKey
-                          ? { background: '#E84060', color: 'white', boxShadow: '0 0 30px rgba(232,64,96,0.6)' }
-                          : { background: 'rgba(45,106,79,0.25)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(45,106,79,0.4)' }),
-                      }}
+                      className="w-16 h-16 rounded-full flex items-center justify-center font-black z-10 flex-shrink-0 text-xs"
+                      style={
+                        isKey
+                          ? { background: '#E84060', color: 'white', boxShadow: '0 4px 16px rgba(232,64,96,0.35)' }
+                          : { background: 'white', color: '#374151', border: '2px solid rgba(45,106,79,0.2)' }
+                      }
                     >
                       {year}
                     </div>
@@ -110,17 +110,17 @@ export default function TimelinePage() {
                     {yearEvents.map((ev, i) => (
                       <div
                         key={i}
-                        className="glass rounded-xl p-4 flex items-start gap-3 transition-all hover:scale-[1.02]"
-                        style={{ border: `1px solid ${CAT_COLORS[ev.cat]}25` }}
+                        className="glass rounded-xl p-4 flex items-start gap-3 transition-all hover:shadow-md"
+                        style={{ borderLeft: `3px solid ${CAT_COLORS[ev.cat]}` }}
                       >
                         <span className="text-xl flex-shrink-0">{ev.icon}</span>
                         <div className="flex-1">
-                          <p className="font-black text-sm text-white">{ev.label}</p>
-                          <p className="text-xs" style={{ color: 'rgba(255,255,255,0.48)' }}>{ev.detail}</p>
+                          <p className="font-bold text-sm text-[#111827]">{ev.label}</p>
+                          <p className="text-xs text-[#6b7280]">{ev.detail}</p>
                         </div>
                         <span
-                          className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
-                          style={{ background: `${CAT_COLORS[ev.cat]}18`, color: CAT_COLORS[ev.cat] }}
+                          className="text-xs px-2 py-0.5 rounded-full flex-shrink-0 font-medium"
+                          style={{ background: `${CAT_COLORS[ev.cat]}12`, color: CAT_COLORS[ev.cat] }}
                         >
                           {ev.cat}
                         </span>
@@ -134,18 +134,15 @@ export default function TimelinePage() {
         </div>
 
         {/* CTA */}
-        <div
-          className="max-w-lg mx-auto mt-12 text-center glass rounded-2xl p-6"
-          style={{ border: '1px solid rgba(232,64,96,0.25)' }}
-        >
-          <h3 className="font-black text-white text-lg mb-2">Dein Meilenstein fehlt?</h3>
-          <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.45)' }}>
+        <div className="max-w-lg mx-auto mt-12 text-center glass rounded-2xl p-6">
+          <h3 className="font-bold text-[#111827] text-lg mb-2">Dein Meilenstein fehlt?</h3>
+          <p className="text-sm text-[#6b7280] mb-4">
             Eigene Ereignisse kommen nach dem Profil-Claim
           </p>
           <a
             href="/claim"
-            className="inline-block px-6 py-3 rounded-xl font-black text-white transition-all hover:scale-105"
-            style={{ background: 'linear-gradient(135deg, #E84060, #c02040)', boxShadow: '0 4px 20px rgba(232,64,96,0.4)' }}
+            className="inline-block px-6 py-3 rounded-lg font-bold text-white transition-all hover:opacity-90"
+            style={{ background: '#E84060' }}
           >
             Profil beanspruchen →
           </a>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <!-- Left dreadlocks (behind head) -->
+  <path d="M42 96 C32 118 26 158 28 200 C32 205 40 205 43 200 C42 158 48 120 58 102 Z" fill="#2D6A4F"/>
+  <path d="M52 90 C44 118 40 162 42 210 C46 215 54 215 57 210 C56 162 62 122 68 98 Z" fill="#1f5038"/>
+  <path d="M62 86 C57 118 55 168 57 218 C61 223 69 223 72 218 C71 168 73 122 76 92 Z" fill="#2D6A4F"/>
+
+  <!-- Right dreadlocks (behind head) -->
+  <path d="M158 96 C168 118 174 158 172 200 C168 205 160 205 157 200 C158 158 152 120 142 102 Z" fill="#2D6A4F"/>
+  <path d="M148 90 C156 118 160 162 158 210 C154 215 146 215 143 210 C144 162 138 122 132 98 Z" fill="#1f5038"/>
+  <path d="M138 86 C143 118 145 168 143 218 C139 223 131 223 128 218 C129 168 127 122 124 92 Z" fill="#2D6A4F"/>
+
+  <!-- Crown -->
+  <path d="M44 72 L44 46 L64 62 L100 30 L136 62 L156 46 L156 72 Z" fill="#E84060"/>
+  <rect x="42" y="70" width="116" height="16" rx="3" fill="#E84060"/>
+
+  <!-- Head -->
+  <ellipse cx="100" cy="108" rx="34" ry="36" fill="#2D6A4F"/>
+
+  <!-- Eyes -->
+  <circle cx="87" cy="103" r="5.5" fill="white"/>
+  <circle cx="113" cy="103" r="5.5" fill="white"/>
+  <circle cx="88.5" cy="104.5" r="3" fill="#061409"/>
+  <circle cx="114.5" cy="104.5" r="3" fill="#061409"/>
+
+  <!-- Nose -->
+  <path d="M97 112 L94 120 L106 120" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Smile -->
+  <path d="M86 126 Q100 136 114 126" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Neck -->
+  <rect x="90" y="142" width="20" height="12" fill="#2D6A4F"/>
+
+  <!-- Body / shirt -->
+  <path d="M58 152 L52 204 L148 204 L142 152 Q100 166 58 152 Z" fill="#2D6A4F"/>
+
+  <!-- Left arm -->
+  <path d="M62 162 Q40 178 34 200 Q40 209 48 200 Q52 182 68 172 Z" fill="#2D6A4F"/>
+
+  <!-- Right arm -->
+  <path d="M138 162 Q160 178 166 200 Q160 209 152 200 Q148 182 132 172 Z" fill="#2D6A4F"/>
+
+  <!-- Left leg -->
+  <rect x="60" y="204" width="30" height="68" rx="12" fill="#2D6A4F"/>
+
+  <!-- Right leg -->
+  <rect x="110" y="204" width="30" height="68" rx="12" fill="#2D6A4F"/>
+</svg>

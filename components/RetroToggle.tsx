@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function RetroToggle() {
-  const [retro, setRetro] = useState(false);
+  const [retro, setRetro]       = useState(false);
   const [switching, setSwitching] = useState(false);
 
   useEffect(() => {
@@ -38,14 +38,36 @@ export default function RetroToggle() {
       <button
         onClick={toggle}
         disabled={switching}
-        className="fixed bottom-5 right-5 z-[9999] px-5 py-3 rounded-xl font-black text-base transition-all hover:scale-105 active:scale-95 shadow-2xl"
-        style={retro
-          ? { background: '#00ff00', color: '#000080', border: '4px ridge #ffff00', fontFamily: '"Comic Sans MS", cursive', boxShadow: '0 0 20px #00ff00, 4px 4px 0 #ffff00' }
-          : { background: 'linear-gradient(135deg, #E84060, #c02040)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', boxShadow: '0 8px 32px rgba(232,64,96,0.4)' }
-        }
-        title="90s / Modern Mode umschalten"
+        title="Zwischen Modern und Netscape 1996 umschalten"
+        className="fixed bottom-5 right-5 z-[9999] transition-all hover:scale-105 active:scale-95"
+        style={retro ? {
+          /* Windows 95 raised button */
+          background: '#C0C0C0',
+          color: '#000000',
+          borderTop: '2px solid #ffffff',
+          borderLeft: '2px solid #ffffff',
+          borderRight: '2px solid #808080',
+          borderBottom: '2px solid #808080',
+          fontFamily: 'Times New Roman, Times, serif',
+          fontSize: '13px',
+          fontWeight: 'bold',
+          padding: '6px 14px',
+          borderRadius: '0',
+          boxShadow: 'none',
+          cursor: 'default',
+        } : {
+          background: '#111827',
+          color: '#f9fafb',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: '10px',
+          padding: '10px 18px',
+          fontSize: '13px',
+          fontWeight: '600',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+          fontFamily: 'inherit',
+        }}
       >
-        {switching ? '📡 ...' : retro ? '💻 Zurück in 2026' : '📺 Zeitreise!'}
+        {switching ? '📡' : retro ? '🖥 Zurück in 2026' : '📺 Zeitreise 1996'}
       </button>
     </>
   );

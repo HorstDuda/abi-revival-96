@@ -39,26 +39,25 @@ function BingoGame() {
   return (
     <div className="space-y-4">
       {hasBingo() && (
-        <div className="font-black text-2xl text-center py-3 rounded-2xl animate-bounce"
-          style={{ background: '#E84060', color: 'white', boxShadow: '0 0 30px rgba(232,64,96,0.5)' }}>
+        <div className="font-black text-2xl text-center py-3 rounded-xl animate-bounce text-white"
+          style={{ background: '#E84060', boxShadow: '0 4px 20px rgba(232,64,96,0.35)' }}>
           🎉 BINGO! 🎉
         </div>
       )}
       <div className="grid grid-cols-5 gap-1.5">
         {BINGO_SQUARES.map((sq, i) => (
           <button key={i} onClick={() => toggle(i)}
-            className="aspect-square flex items-center justify-center text-xs font-medium p-1 rounded-lg text-center transition-all leading-tight"
+            className="aspect-square flex items-center justify-center text-xs font-medium p-1 rounded-lg text-center transition-all leading-tight border"
             style={marked.has(i)
               ? (i === 10
-                  ? { background: '#E84060', color: 'white', fontWeight: 900 }
-                  : { background: '#2D6A4F', color: 'white', transform: 'scale(0.95)' })
-              : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.1)' }
+                  ? { background: '#E84060', color: 'white', fontWeight: 900, borderColor: '#E84060' }
+                  : { background: '#2D6A4F', color: 'white', transform: 'scale(0.95)', borderColor: '#2D6A4F' })
+              : { background: 'white', color: '#374151', borderColor: 'rgba(0,0,0,0.08)' }
             }
           >{sq}</button>
         ))}
       </div>
-      <button onClick={() => setMarked(new Set([10]))} className="text-xs transition"
-        style={{ color: 'rgba(255,255,255,0.3)' }}>Neustart</button>
+      <button onClick={() => setMarked(new Set([10]))} className="text-xs text-[#9ca3af] hover:text-[#6b7280] transition-colors">Neustart</button>
     </div>
   );
 }
@@ -77,30 +76,30 @@ function VotingSection() {
   return (
     <div className="space-y-6">
       {VOTE_CATS.map((cat) => (
-        <div key={cat.id} className="glass rounded-2xl p-5" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
+        <div key={cat.id} className="glass rounded-2xl p-5">
           <div className="flex gap-4 items-start mb-4">
-            <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+            <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-[#f3f4f6]">
               <Image src={cat.image} alt={cat.label} fill className="object-cover" sizes="80px" />
             </div>
             <div>
-              <h4 className="font-black text-lg text-white">{cat.emoji} {cat.label}</h4>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Voting beim Treffen aktiv</p>
+              <h4 className="font-bold text-base text-[#111827]">{cat.emoji} {cat.label}</h4>
+              <p className="text-sm text-[#9ca3af]">Voting beim Treffen aktiv</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2">
             {candidates.map((c) => (
               <button key={c} onClick={() => setVotes((v) => ({...v, [cat.id]: c}))}
-                className="text-sm p-2 rounded-xl text-left transition"
+                className="text-sm p-2 rounded-lg text-left transition-all border"
                 style={votes[cat.id] === c
-                  ? { background: '#E84060', color: 'white', fontWeight: 700 }
-                  : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.65)', border: '1px solid rgba(255,255,255,0.1)' }
+                  ? { background: '#E84060', color: 'white', fontWeight: 700, borderColor: '#E84060' }
+                  : { background: 'white', color: '#374151', borderColor: 'rgba(0,0,0,0.08)' }
                 }>
                 {votes[cat.id] === c ? '✓ ' : ''}{c.split(', ').reverse().join(' ')}
               </button>
             ))}
           </div>
           {votes[cat.id] && (
-            <p className="text-sm mt-2 font-bold" style={{ color: '#52b788' }}>
+            <p className="text-sm mt-2 font-semibold text-[#2D6A4F]">
               Dein Vote: {votes[cat.id].split(', ').reverse().join(' ')}
             </p>
           )}
@@ -120,16 +119,16 @@ function WerBinIchQuiz() {
   const [score, setScore] = useState(0);
   const person = quizPersons[current];
   return (
-    <div className="glass rounded-2xl p-6 space-y-4" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
+    <div className="glass rounded-2xl p-6 space-y-4">
       <div className="flex justify-between items-center">
-        <span className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>Frage {current+1} / {quizPersons.length}</span>
+        <span className="text-sm text-[#9ca3af]">Frage {current+1} / {quizPersons.length}</span>
         <span className="text-sm font-black" style={{ color: '#E84060' }}>Score: {score}</span>
       </div>
       <div className="space-y-3">
         {person.clues.slice(0, clueIndex+1).map((clue, i) => (
           <div key={i} className="flex gap-2 items-start">
             <span className="font-black text-sm" style={{ color: '#E84060' }}>#{i+1}</span>
-            <p className="text-white text-sm">{clue}</p>
+            <p className="text-[#374151] text-sm">{clue}</p>
           </div>
         ))}
       </div>
@@ -137,25 +136,23 @@ function WerBinIchQuiz() {
         <div className="flex gap-3 flex-wrap">
           {clueIndex < person.clues.length-1 && (
             <button onClick={() => setClueIndex((i) => i+1)}
-              className="px-4 py-2 rounded-xl text-sm transition"
-              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>
+              className="px-4 py-2 rounded-lg text-sm bg-white border border-black/[0.08] text-[#374151] transition-colors hover:border-[#2D6A4F]/30">
               Noch ein Hinweis...
             </button>
           )}
           <button onClick={() => setRevealed(true)}
-            className="px-4 py-2 rounded-xl text-sm font-black transition"
-            style={{ background: '#E84060', color: 'white' }}>
+            className="px-4 py-2 rounded-lg text-sm font-bold text-white transition-opacity hover:opacity-90"
+            style={{ background: '#E84060' }}>
             Auflösen!
           </button>
         </div>
       ) : (
         <div className="space-y-3">
-          <div className="rounded-xl p-4" style={{ background: 'rgba(45,106,79,0.25)', border: '1px solid rgba(82,183,136,0.4)' }}>
-            <p className="font-black text-lg" style={{ color: '#52b788' }}>{person.answer.split(', ').reverse().join(' ')}</p>
+          <div className="rounded-xl p-4 bg-[#f0fdf4] border border-[#2D6A4F]/20">
+            <p className="font-black text-lg text-[#2D6A4F]">{person.answer.split(', ').reverse().join(' ')}</p>
           </div>
           <button onClick={() => { setRevealed(false); setClueIndex(0); setCurrent((c) => (c+1)%quizPersons.length); }}
-            className="px-4 py-2 rounded-xl text-sm transition"
-            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>
+            className="px-4 py-2 rounded-lg text-sm bg-white border border-black/[0.08] text-[#374151] hover:border-[#2D6A4F]/30 transition-colors">
             Nächste Person →
           </button>
         </div>
@@ -181,17 +178,16 @@ function SuperlativesVoting() {
   return (
     <div className="space-y-4">
       {SUPERLATIVES.map((sup) => (
-        <div key={sup.id} className="glass rounded-xl p-4" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
-          <h4 className="font-black mb-2 text-white">{sup.emoji} {sup.label}</h4>
+        <div key={sup.id} className="glass rounded-xl p-4">
+          <h4 className="font-semibold mb-2 text-[#111827]">{sup.emoji} {sup.label}</h4>
           <input type="text" placeholder="Name eingeben…" value={votes[sup.id]||''}
             onChange={(e) => setVotes((v) => ({...v, [sup.id]: e.target.value}))}
-            className="w-full rounded-xl px-3 py-2 text-sm text-white outline-none"
-            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(45,106,79,0.3)' }} />
+            className="w-full rounded-lg px-3 py-2 text-sm text-[#111827] outline-none bg-white border border-black/[0.08] focus:border-[#2D6A4F]/40 transition-colors" />
         </div>
       ))}
       <div className="text-center">
-        <button className="px-6 py-3 rounded-xl font-black transition"
-          style={{ background: 'linear-gradient(135deg, #E84060, #c02040)', color: 'white', boxShadow: '0 4px 15px rgba(232,64,96,0.3)' }}>
+        <button className="px-6 py-3 rounded-lg font-bold text-white transition-opacity hover:opacity-90"
+          style={{ background: '#2D6A4F' }}>
           Votes abschicken (coming soon)
         </button>
       </div>
@@ -216,11 +212,11 @@ const DM_ITEMS = [
 ];
 
 function DmPreisSpiel() {
-  const [idx, setIdx]         = useState(0);
-  const [guess, setGuess]     = useState('');
+  const [idx, setIdx]           = useState(0);
+  const [guess, setGuess]       = useState('');
   const [revealed, setRevealed] = useState(false);
-  const [score, setScore]     = useState(0);
-  const [done, setDone]       = useState(false);
+  const [score, setScore]       = useState(0);
+  const [done, setDone]         = useState(false);
   const current = DM_ITEMS[idx];
 
   const handleReveal = () => {
@@ -237,13 +233,13 @@ function DmPreisSpiel() {
   if (done) return (
     <div className="text-center py-8">
       <div className="text-6xl mb-4">💰</div>
-      <p className="text-2xl font-black mb-2 text-white">Ergebnis: {score} / {DM_ITEMS.length}</p>
-      <p className="mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+      <p className="text-2xl font-black mb-2 text-[#111827]">Ergebnis: {score} / {DM_ITEMS.length}</p>
+      <p className="mb-4 text-[#6b7280]">
         {score >= 8 ? 'Echter 90er-Kenner! 🏆' : score >= 5 ? 'Nicht schlecht! 👍' : 'Die DM ist schon lange her... 😅'}
       </p>
       <button onClick={() => { setIdx(0); setGuess(''); setRevealed(false); setScore(0); setDone(false); }}
-        className="px-6 py-3 rounded-xl font-black transition"
-        style={{ background: '#E84060', color: 'white' }}>Nochmal spielen</button>
+        className="px-6 py-3 rounded-lg font-bold text-white transition-opacity hover:opacity-90"
+        style={{ background: '#E84060' }}>Nochmal spielen</button>
     </div>
   );
 
@@ -254,41 +250,39 @@ function DmPreisSpiel() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between text-sm">
-        <span style={{ color: 'rgba(255,255,255,0.4)' }}>Frage {idx+1} / {DM_ITEMS.length}</span>
+        <span className="text-[#9ca3af]">Frage {idx+1} / {DM_ITEMS.length}</span>
         <span className="font-black" style={{ color: '#E84060' }}>Score: {score}</span>
       </div>
-      <div className="glass rounded-2xl p-6 text-center" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
-        <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>{current.hint}</p>
-        <h3 className="text-3xl font-black mb-4 text-white">{current.item}</h3>
-        <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.45)' }}>Was hat das 1996 in DM gekostet?</p>
+      <div className="glass rounded-2xl p-6 text-center">
+        <p className="text-sm text-[#9ca3af] mb-1">{current.hint}</p>
+        <h3 className="text-3xl font-black mb-4 text-[#111827]">{current.item}</h3>
+        <p className="text-sm text-[#6b7280] mb-4">Was hat das 1996 in DM gekostet?</p>
         {!revealed ? (
           <div className="flex gap-2 max-w-xs mx-auto">
             <div className="relative flex-1">
               <input type="text" placeholder="z.B. 4,90" value={guess}
                 onChange={(e) => setGuess(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && guess && handleReveal()}
-                className="w-full rounded-xl px-3 py-2 text-white pr-12 outline-none"
-                style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(45,106,79,0.3)' }} />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 font-black text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>DM</span>
+                className="w-full rounded-lg px-3 py-2 text-[#111827] pr-12 outline-none bg-white border border-black/[0.08] focus:border-[#2D6A4F]/40 transition-colors" />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-sm text-[#9ca3af]">DM</span>
             </div>
             <button onClick={handleReveal} disabled={!guess}
-              className="px-4 py-2 rounded-xl font-black transition"
-              style={{ background: guess ? '#E84060' : 'rgba(255,255,255,0.08)', color: 'white' }}>→</button>
+              className="px-4 py-2 rounded-lg font-bold text-white transition-opacity"
+              style={{ background: guess ? '#E84060' : '#e5e7eb', color: guess ? 'white' : '#9ca3af' }}>→</button>
           </div>
         ) : (
           <div className="space-y-3">
             <div className="rounded-xl p-4" style={hit
-              ? { background: 'rgba(45,106,79,0.25)', border: '1px solid rgba(82,183,136,0.4)' }
-              : { background: 'rgba(232,64,96,0.15)', border: '1px solid rgba(232,64,96,0.4)' }
+              ? { background: '#f0fdf4', border: '1px solid rgba(45,106,79,0.25)' }
+              : { background: '#fff1f2', border: '1px solid rgba(232,64,96,0.25)' }
             }>
-              <p className="text-2xl font-black text-white">{current.price}</p>
-              {guess && <p className="text-sm mt-1" style={{ color: hit ? '#52b788' : '#E84060' }}>
+              <p className="text-2xl font-black text-[#111827]">{current.price}</p>
+              {guess && <p className="text-sm mt-1" style={{ color: hit ? '#2D6A4F' : '#E84060' }}>
                 Deine Schätzung: {guess} DM {hit ? '✓ Treffer!' : '✗'}
               </p>}
             </div>
             <button onClick={handleNext}
-              className="px-6 py-2 rounded-xl font-black transition"
-              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>Nächstes →</button>
+              className="px-6 py-2 rounded-lg font-semibold bg-white border border-black/[0.08] text-[#374151] hover:border-[#2D6A4F]/30 transition-colors">Nächstes →</button>
           </div>
         )}
       </div>
@@ -318,8 +312,8 @@ const DUDA_QUOTES = [
 ];
 
 function DudaSpruchGenerator() {
-  const [idx, setIdx]         = useState(() => Math.floor(Math.random() * DUDA_QUOTES.length));
-  const [animating, setAnim]  = useState(false);
+  const [idx, setIdx]        = useState(() => Math.floor(Math.random() * DUDA_QUOTES.length));
+  const [animating, setAnim] = useState(false);
   const next = () => {
     setAnim(true);
     setTimeout(() => { setIdx(Math.floor(Math.random() * DUDA_QUOTES.length)); setAnim(false); }, 200);
@@ -329,19 +323,19 @@ function DudaSpruchGenerator() {
     <div className="space-y-6">
       <div
         className="glass rounded-2xl p-8 text-center transition-opacity duration-200"
-        style={{ border: '1px solid rgba(232,64,96,0.2)', opacity: animating ? 0 : 1 }}
+        style={{ opacity: animating ? 0 : 1 }}
       >
         <div className="text-5xl mb-4">📖</div>
-        <blockquote className="text-xl font-semibold text-white leading-relaxed mb-4 italic">{q.quote}</blockquote>
+        <blockquote className="text-xl font-semibold text-[#111827] leading-relaxed mb-4 italic">{q.quote}</blockquote>
         <p className="text-sm" style={{ color: '#E84060' }}>— {q.person}</p>
       </div>
       <div className="text-center space-y-2">
         <button onClick={next}
-          className="px-8 py-3 rounded-xl font-black transition hover:scale-105"
-          style={{ background: 'linear-gradient(135deg, #E84060, #c02040)', color: 'white', boxShadow: '0 4px 20px rgba(232,64,96,0.35)' }}>
+          className="px-8 py-3 rounded-xl font-bold text-white transition-all hover:opacity-90 hover:scale-[1.02]"
+          style={{ background: '#E84060', boxShadow: '0 4px 20px rgba(232,64,96,0.25)' }}>
           🎲 Neuer Spruch
         </button>
-        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>{idx+1} / {DUDA_QUOTES.length} Perlen der Abizeitung</p>
+        <p className="text-xs text-[#9ca3af]">{idx+1} / {DUDA_QUOTES.length} Perlen der Abizeitung</p>
       </div>
     </div>
   );
@@ -368,29 +362,29 @@ function FlipCards() {
   const toggle = (i: number) => setFlipped((p) => { const n = new Set(p); n.has(i) ? n.delete(i) : n.add(i); return n; });
   return (
     <div className="space-y-3">
-      <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.4)' }}>Tippe auf eine Karte zum Umdrehen.</p>
+      <p className="text-sm mb-4 text-[#9ca3af]">Tippe auf eine Karte zum Umdrehen.</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {FLIP_CARDS.map((card, i) => (
           <button key={i} onClick={() => toggle(i)}
-            className="p-5 rounded-2xl text-left transition-all"
+            className="p-5 rounded-2xl text-left transition-all border hover:shadow-sm"
             style={flipped.has(i)
-              ? { background: 'rgba(6,182,212,0.12)', border: '1px solid rgba(6,182,212,0.4)' }
-              : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }
+              ? { background: '#eff6ff', borderColor: 'rgba(59,130,246,0.3)' }
+              : { background: 'white', borderColor: 'rgba(0,0,0,0.08)' }
             }>
             <div className="flex gap-3 items-start">
               <span className="text-2xl flex-shrink-0">{card.emoji}</span>
               <div>
                 {!flipped.has(i) ? (
                   <>
-                    <p className="text-xs font-black mb-1" style={{ color: '#E84060' }}>1996</p>
-                    <p className="text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>{card.then}</p>
-                    <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.25)' }}>→ Umdrehen für 2026</p>
+                    <p className="text-xs font-bold mb-1" style={{ color: '#E84060' }}>1996</p>
+                    <p className="text-sm text-[#374151]">{card.then}</p>
+                    <p className="text-xs mt-2 text-[#9ca3af]">→ Umdrehen für 2026</p>
                   </>
                 ) : (
                   <>
-                    <p className="text-xs font-black mb-1" style={{ color: '#06b6d4' }}>2026</p>
-                    <p className="text-sm text-white">{card.now}</p>
-                    <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.25)' }}>← Zurück zu 1996</p>
+                    <p className="text-xs font-bold mb-1 text-blue-500">2026</p>
+                    <p className="text-sm text-[#374151]">{card.now}</p>
+                    <p className="text-xs mt-2 text-[#9ca3af]">← Zurück zu 1996</p>
                   </>
                 )}
               </div>
@@ -414,8 +408,8 @@ const PRESET_SONGS = [
 ];
 
 function KassettenMixtape() {
-  const [songs, setSongs]   = useState(PRESET_SONGS);
-  const [inp, setInp]       = useState({ artist: '', title: '' });
+  const [songs, setSongs] = useState(PRESET_SONGS);
+  const [inp, setInp]     = useState({ artist: '', title: '' });
   const add = () => {
     if (!inp.artist || !inp.title) return;
     setSongs((p) => [...p, inp]);
@@ -423,48 +417,39 @@ function KassettenMixtape() {
   };
   return (
     <div className="space-y-5">
-      <div className="glass rounded-2xl p-5" style={{ border: '1px solid rgba(45,106,79,0.25)' }}>
+      <div className="glass rounded-2xl p-5">
         <div className="flex gap-3 items-center mb-4">
           <div className="text-4xl">📼</div>
           <div>
-            <p className="font-black text-lg text-white">Marienstatt Reunion Mix 2026</p>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>{songs.length} Tracks · ~{songs.length*4} Min · Side A</p>
+            <p className="font-bold text-base text-[#111827]">Marienstatt Reunion Mix 2026</p>
+            <p className="text-sm text-[#9ca3af]">{songs.length} Tracks · ~{songs.length*4} Min · Side A</p>
           </div>
-        </div>
-        <div className="flex gap-4 justify-center mb-4">
-          <div className="w-12 h-12 rounded-full border-2 flex items-center justify-center font-black text-sm"
-            style={{ background: 'rgba(0,0,0,0.6)', borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.3)' }}>▶</div>
-          <div className="flex-1 h-2 rounded-full self-center" style={{ background: 'rgba(255,255,255,0.15)' }} />
-          <div className="w-12 h-12 rounded-full border-2 flex items-center justify-center font-black text-sm"
-            style={{ background: 'rgba(0,0,0,0.6)', borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.3)' }}>▶</div>
         </div>
         <ol className="space-y-1.5">
           {songs.map((s, i) => (
             <li key={i} className="flex gap-3 items-center text-sm">
-              <span className="w-5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.3)' }}>{i+1}.</span>
-              <span className="text-white font-medium">{s.title}</span>
-              <span style={{ color: 'rgba(255,255,255,0.35)' }}>—</span>
-              <span style={{ color: 'rgba(255,255,255,0.5)' }}>{s.artist}</span>
+              <span className="w-5 flex-shrink-0 text-[#9ca3af]">{i+1}.</span>
+              <span className="text-[#111827] font-medium">{s.title}</span>
+              <span className="text-[#9ca3af]">—</span>
+              <span className="text-[#6b7280]">{s.artist}</span>
             </li>
           ))}
         </ol>
       </div>
-      <div className="glass rounded-xl p-4 space-y-3" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
-        <h4 className="font-black text-sm text-white">Deinen Song hinzufügen</h4>
+      <div className="glass rounded-xl p-4 space-y-3">
+        <h4 className="font-semibold text-sm text-[#111827]">Deinen Song hinzufügen</h4>
         <div className="grid grid-cols-2 gap-2">
           <input type="text" placeholder="Interpret" value={inp.artist}
             onChange={(e) => setInp((v) => ({...v, artist: e.target.value}))}
-            className="rounded-xl px-3 py-2 text-sm text-white outline-none"
-            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(45,106,79,0.3)' }} />
+            className="rounded-lg px-3 py-2 text-sm text-[#111827] outline-none bg-white border border-black/[0.08] focus:border-[#2D6A4F]/40 transition-colors" />
           <input type="text" placeholder="Titel" value={inp.title}
             onChange={(e) => setInp((v) => ({...v, title: e.target.value}))}
             onKeyDown={(e) => e.key === 'Enter' && add()}
-            className="rounded-xl px-3 py-2 text-sm text-white outline-none"
-            style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(45,106,79,0.3)' }} />
+            className="rounded-lg px-3 py-2 text-sm text-[#111827] outline-none bg-white border border-black/[0.08] focus:border-[#2D6A4F]/40 transition-colors" />
         </div>
         <button onClick={add} disabled={!inp.artist || !inp.title}
-          className="w-full py-2 rounded-xl font-black text-sm transition"
-          style={{ background: inp.artist && inp.title ? '#E84060' : 'rgba(255,255,255,0.07)', color: 'white' }}>
+          className="w-full py-2 rounded-lg font-semibold text-sm transition-opacity"
+          style={{ background: inp.artist && inp.title ? '#E84060' : '#e5e7eb', color: inp.artist && inp.title ? 'white' : '#9ca3af' }}>
           + Auf die Kassette
         </button>
       </div>
@@ -480,13 +465,13 @@ type Pt = [number, number];
 type Dir = 'UP'|'DOWN'|'LEFT'|'RIGHT';
 
 function NokiaSnake() {
-  const [snake, setSnake]   = useState<Pt[]>([[10,7],[9,7],[8,7]]);
-  const [food, setFood]     = useState<Pt>([15,7]);
-  const [dir, setDir]       = useState<Dir>('RIGHT');
+  const [snake, setSnake]     = useState<Pt[]>([[10,7],[9,7],[8,7]]);
+  const [food, setFood]       = useState<Pt>([15,7]);
+  const [dir, setDir]         = useState<Dir>('RIGHT');
   const [running, setRunning] = useState(false);
-  const [dead, setDead]     = useState(false);
-  const [score, setScore]   = useState(0);
-  const [highscore, setHS]  = useState(0);
+  const [dead, setDead]       = useState(false);
+  const [score, setScore]     = useState(0);
+  const [highscore, setHS]    = useState(0);
   const dirRef   = useRef<Dir>('RIGHT');
   const snakeRef = useRef<Pt[]>([[10,7],[9,7],[8,7]]);
   const foodRef  = useRef<Pt>([15,7]);
@@ -538,31 +523,31 @@ function NokiaSnake() {
   return (
     <div className="space-y-4 flex flex-col items-center">
       <div className="flex gap-8 text-sm">
-        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Score: <strong className="text-white">{score}</strong></span>
-        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Best: <strong style={{ color: '#E84060' }}>{highscore}</strong></span>
+        <span className="text-[#6b7280]">Score: <strong className="text-[#111827]">{score}</strong></span>
+        <span className="text-[#6b7280]">Best: <strong style={{ color: '#E84060' }}>{highscore}</strong></span>
       </div>
-      <div className="relative rounded-xl overflow-hidden border-2" style={{ width: COLS*CELL, height: ROWS*CELL, background: '#001100', borderColor: '#2D6A4F' }}>
+      <div className="relative rounded-lg overflow-hidden border-2 border-[#2D6A4F]" style={{ width: COLS*CELL, height: ROWS*CELL, background: '#f0fdf4' }}>
         <div className="absolute rounded-full bg-red-500" style={{ left: food[0]*CELL+2, top: food[1]*CELL+2, width: CELL-4, height: CELL-4 }} />
         {snake.map(([x,y], i) => (
-          <div key={`${x}-${y}-${i}`} className="absolute rounded-sm" style={{ left: x*CELL+1, top: y*CELL+1, width: CELL-2, height: CELL-2, background: i===0 ? '#52b788' : '#2D6A4F' }} />
+          <div key={`${x}-${y}-${i}`} className="absolute rounded-sm" style={{ left: x*CELL+1, top: y*CELL+1, width: CELL-2, height: CELL-2, background: i===0 ? '#2D6A4F' : '#52b788' }} />
         ))}
         {!running && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ background: 'rgba(0,0,0,0.75)' }}>
-            {dead && <><p className="font-black text-xl mb-1" style={{ color: '#E84060' }}>GAME OVER</p><p className="text-white text-sm mb-3">Score: {score}</p></>}
-            {!dead && <p className="font-black text-lg mb-3" style={{ color: '#52b788' }}>NOKIA SNAKE</p>}
-            <button onClick={start} className="px-5 py-2 rounded-xl font-black text-sm transition"
-              style={{ background: '#2D6A4F', color: 'white' }}>{dead ? 'Nochmal' : 'Start'}</button>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
+            {dead && <><p className="font-black text-xl mb-1" style={{ color: '#E84060' }}>GAME OVER</p><p className="text-sm text-[#374151] mb-3">Score: {score}</p></>}
+            {!dead && <p className="font-black text-lg mb-3 text-[#2D6A4F]">NOKIA SNAKE</p>}
+            <button onClick={start} className="px-5 py-2 rounded-lg font-bold text-sm text-white transition-opacity hover:opacity-90"
+              style={{ background: '#2D6A4F' }}>{dead ? 'Nochmal' : 'Start'}</button>
           </div>
         )}
       </div>
       <div className="grid grid-cols-3 gap-1 w-32">
-        <div /><button onClick={() => swipe('UP')} className="rounded p-2 text-center text-sm" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }}>▲</button><div />
-        <button onClick={() => swipe('LEFT')} className="rounded p-2 text-center text-sm" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }}>◄</button>
-        <button onClick={() => { running ? setRunning(false) : start(); }} className="rounded p-2 text-center text-xs" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}>⏸</button>
-        <button onClick={() => swipe('RIGHT')} className="rounded p-2 text-center text-sm" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }}>►</button>
-        <div /><button onClick={() => swipe('DOWN')} className="rounded p-2 text-center text-sm" style={{ background: 'rgba(255,255,255,0.1)', color: 'white' }}>▼</button><div />
+        <div /><button onClick={() => swipe('UP')} className="rounded p-2 text-center text-sm bg-white border border-black/[0.08] text-[#374151]">▲</button><div />
+        <button onClick={() => swipe('LEFT')} className="rounded p-2 text-center text-sm bg-white border border-black/[0.08] text-[#374151]">◄</button>
+        <button onClick={() => { running ? setRunning(false) : start(); }} className="rounded p-2 text-center text-xs bg-[#f3f4f6] text-[#9ca3af]">⏸</button>
+        <button onClick={() => swipe('RIGHT')} className="rounded p-2 text-center text-sm bg-white border border-black/[0.08] text-[#374151]">►</button>
+        <div /><button onClick={() => swipe('DOWN')} className="rounded p-2 text-center text-sm bg-white border border-black/[0.08] text-[#374151]">▼</button><div />
       </div>
-      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.25)' }}>Tastatur: WASD oder Pfeiltasten</p>
+      <p className="text-xs text-[#9ca3af]">Tastatur: WASD oder Pfeiltasten</p>
     </div>
   );
 }
@@ -598,48 +583,47 @@ function LehrerQuiz() {
   if (done) return (
     <div className="text-center py-8">
       <div className="text-6xl mb-4">🎓</div>
-      <p className="text-2xl font-black mb-2 text-white">Ergebnis: {score} / {LEHRER_QUOTES.length}</p>
-      <p className="mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+      <p className="text-2xl font-black mb-2 text-[#111827]">Ergebnis: {score} / {LEHRER_QUOTES.length}</p>
+      <p className="mb-4 text-[#6b7280]">
         {score===LEHRER_QUOTES.length ? 'Du hast aufgepasst! 🏆' : score>=3 ? 'Gute Erinnerungen! 👍' : 'Die Lehrer waren doch austauschbar... 😅'}
       </p>
       <button onClick={() => { setIdx(0); setSelected(null); setScore(0); setDone(false); }}
-        className="px-6 py-3 rounded-xl font-black transition"
-        style={{ background: '#E84060', color: 'white' }}>Nochmal</button>
+        className="px-6 py-3 rounded-lg font-bold text-white transition-opacity hover:opacity-90"
+        style={{ background: '#E84060' }}>Nochmal</button>
     </div>
   );
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between text-sm">
-        <span style={{ color: 'rgba(255,255,255,0.4)' }}>Zitat {idx+1} / {LEHRER_QUOTES.length}</span>
+        <span className="text-[#9ca3af]">Zitat {idx+1} / {LEHRER_QUOTES.length}</span>
         <span className="font-black" style={{ color: '#E84060' }}>Score: {score}</span>
       </div>
-      <div className="glass rounded-2xl p-6 space-y-5" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
-        <blockquote className="text-xl font-semibold text-white italic leading-relaxed border-l-4 pl-4" style={{ borderColor: '#E84060' }}>
+      <div className="glass rounded-2xl p-6 space-y-5">
+        <blockquote className="text-xl font-semibold text-[#111827] italic leading-relaxed border-l-4 pl-4" style={{ borderColor: '#E84060' }}>
           {q.quote}
         </blockquote>
-        <p className="font-bold text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Wer hat das gesagt?</p>
+        <p className="font-semibold text-sm text-[#6b7280]">Wer hat das gesagt?</p>
         <div className="grid grid-cols-1 gap-2">
           {q.options.map((opt) => (
             <button key={opt} onClick={() => handleSelect(opt)}
-              className="p-3 rounded-xl text-sm text-left transition font-medium"
+              className="p-3 rounded-lg text-sm text-left transition font-medium border"
               style={selected
                 ? (opt === q.answer
-                    ? { background: 'rgba(45,106,79,0.4)', color: '#52b788', border: '1px solid rgba(82,183,136,0.5)' }
+                    ? { background: '#f0fdf4', color: '#2D6A4F', borderColor: 'rgba(45,106,79,0.3)' }
                     : opt === selected
-                    ? { background: 'rgba(232,64,96,0.2)', color: '#E84060', border: '1px solid rgba(232,64,96,0.4)' }
-                    : { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.35)', border: '1px solid rgba(255,255,255,0.08)' })
-                : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.1)' }
+                    ? { background: '#fff1f2', color: '#E84060', borderColor: 'rgba(232,64,96,0.3)' }
+                    : { background: 'white', color: '#9ca3af', borderColor: 'rgba(0,0,0,0.04)' })
+                : { background: 'white', color: '#374151', borderColor: 'rgba(0,0,0,0.08)' }
               }
             >{opt}</button>
           ))}
         </div>
         {selected && (
           <div className="space-y-2">
-            <p className="text-xs italic" style={{ color: 'rgba(255,255,255,0.35)' }}>Kontext: {q.context}</p>
+            <p className="text-xs italic text-[#9ca3af]">Kontext: {q.context}</p>
             <button onClick={handleNext}
-              className="px-4 py-2 rounded-xl text-sm font-black transition"
-              style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>
+              className="px-4 py-2 rounded-lg text-sm font-semibold bg-white border border-black/[0.08] text-[#374151] hover:border-[#2D6A4F]/30 transition-colors">
               Nächstes Zitat →
             </button>
           </div>
@@ -653,16 +637,16 @@ function LehrerQuiz() {
 // MAIN PAGE
 // ============================================================
 const TABS = [
-  { id: 'bingo',       label: '🎯 Bingo' },
-  { id: 'voting',      label: '🍷 Gut/Schlecht' },
-  { id: 'quiz',        label: '🕵️ Wer bin ich?' },
-  { id: 'superlatives',label: '🏆 Superlative' },
-  { id: 'dm',          label: '💰 DM-Preise' },
-  { id: 'duda',        label: '📖 Duda-Sprüche' },
-  { id: 'flip',        label: '🔄 1996 vs 2026' },
-  { id: 'mixtape',     label: '📼 Mixtape' },
-  { id: 'snake',       label: '🐍 Nokia Snake' },
-  { id: 'lehrer',      label: '🎓 Lehrer-Quiz' },
+  { id: 'bingo',        label: '🎯 Bingo' },
+  { id: 'voting',       label: '🍷 Gut/Schlecht' },
+  { id: 'quiz',         label: '🕵️ Wer bin ich?' },
+  { id: 'superlatives', label: '🏆 Superlative' },
+  { id: 'dm',           label: '💰 DM-Preise' },
+  { id: 'duda',         label: '📖 Duda-Sprüche' },
+  { id: 'flip',         label: '🔄 1996 vs 2026' },
+  { id: 'mixtape',      label: '📼 Mixtape' },
+  { id: 'snake',        label: '🐍 Nokia Snake' },
+  { id: 'lehrer',       label: '🎓 Lehrer-Quiz' },
 ];
 
 const TITLES: Record<string, { h: string; sub: string }> = {
@@ -683,32 +667,36 @@ export default function SpielePage() {
   const t = TITLES[tab];
 
   return (
-    <main className="min-h-screen py-12" style={{ background: 'linear-gradient(160deg, #0a1f0a 0%, #0a0a0a 100%)' }}>
+    <main className="min-h-screen bg-[#f8f9fa] py-12">
       <div className="container mx-auto px-4 max-w-3xl">
+
+        {/* Header */}
         <div className="text-center mb-10">
           <h1
-            className="font-black mb-2 tracking-tight"
-            style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)', color: '#E84060', textShadow: '3px 3px 0px rgba(0,0,0,0.6)' }}
-          >SPIELE</h1>
-          <p style={{ color: 'rgba(255,255,255,0.45)' }}>Für das Treffen am 12./13. Juni 2026</p>
+            className="font-black mb-2 tracking-tight text-[#111827]"
+            style={{ fontSize: 'clamp(2.5rem, 8vw, 5rem)' }}
+          >
+            <span style={{ color: '#2D6A4F' }}>Spiele</span>
+          </h1>
+          <p className="text-[#6b7280]">Für das Treffen am 12./13. Juni 2026</p>
         </div>
 
         {/* Tab bar */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-8" style={{ scrollbarWidth: 'none' }}>
           {TABS.map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)}
-              className="px-4 py-2 rounded-xl text-sm font-bold transition whitespace-nowrap flex-shrink-0"
+              className="px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0 border"
               style={tab === t.id
-                ? { background: '#E84060', color: 'white', boxShadow: '0 4px 15px rgba(232,64,96,0.4)' }
-                : { background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)' }
+                ? { background: '#2D6A4F', color: 'white', borderColor: '#2D6A4F' }
+                : { background: 'white', color: '#6b7280', borderColor: 'rgba(0,0,0,0.08)' }
               }
             >{t.label}</button>
           ))}
         </div>
 
         <div className="mb-6">
-          <h2 className="font-black text-2xl mb-1 text-white">{t.h}</h2>
-          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>{t.sub}</p>
+          <h2 className="font-bold text-xl mb-1 text-[#111827]">{t.h}</h2>
+          <p className="text-sm text-[#9ca3af]">{t.sub}</p>
         </div>
 
         {tab === 'bingo'        && <BingoGame />}

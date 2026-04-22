@@ -24,11 +24,11 @@ const DM_QUIZ = [
 ];
 
 const FACTS = [
-  { cat: '🎵 Musik',    items: ['Alanis Morissette – Ironic', 'Macarena – Los Del Rio', 'Spice Girls – Wannabe', 'Oasis – Wonderwall', 'Coolio – Gangsta\'s Paradise'] },
-  { cat: '🎬 Film & TV',items: ['Scream', 'Independence Day', 'Mission Impossible', 'Jerry Maguire', 'Big Brother noch nicht erfunden'] },
-  { cat: '💾 Technik',  items: ['Windows 95 / NT 4.0', 'Internet Explorer 3.0', '56k Modem', 'Nokia 1610', 'ICQ noch nicht da', 'GeoCities Homepages'] },
-  { cat: '⚽ Sport',    items: ['Deutschland gewinnt EM 96!', 'Boris Becker beendet Karriere', 'Steffi Graf Wimbledon', 'Schumacher WM-Titel'] },
-  { cat: '🌍 Welt',     items: ['Dolly das Schaf geklont', 'Euro 1996 in England', 'Erste Browser-Kriege', 'Madonnas Evita'] },
+  { cat: '🎵 Musik',     items: ['Alanis Morissette – Ironic', 'Macarena – Los Del Rio', 'Spice Girls – Wannabe', 'Oasis – Wonderwall', 'Coolio – Gangsta\'s Paradise'] },
+  { cat: '🎬 Film & TV', items: ['Scream', 'Independence Day', 'Mission Impossible', 'Jerry Maguire', 'Big Brother noch nicht erfunden'] },
+  { cat: '💾 Technik',   items: ['Windows 95 / NT 4.0', 'Internet Explorer 3.0', '56k Modem', 'Nokia 1610', 'ICQ noch nicht da', 'GeoCities Homepages'] },
+  { cat: '⚽ Sport',     items: ['Deutschland gewinnt EM 96!', 'Boris Becker beendet Karriere', 'Steffi Graf Wimbledon', 'Schumacher WM-Titel'] },
+  { cat: '🌍 Welt',      items: ['Dolly das Schaf geklont', 'Euro 1996 in England', 'Erste Browser-Kriege', 'Madonnas Evita'] },
   { cat: '🏫 Marienstatt',items: ['Unser ABITUR!', '6 Jahre Internat', 'Abizeitung erscheint', 'Abistreich legendär', 'Letzte Unterrichtsstunde'] },
 ];
 
@@ -47,7 +47,7 @@ export default function RetroPage() {
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
 
   return (
-    <main className="min-h-screen py-12" style={{ background: 'linear-gradient(160deg, #0a1f0a 0%, #0a0a0a 100%)' }}>
+    <main className="min-h-screen bg-[#f8f9fa] py-12">
 
       {/* Retro marquee */}
       <div className="retro-marquee">
@@ -57,31 +57,35 @@ export default function RetroPage() {
       </div>
 
       <div className="container mx-auto px-4">
+
+        {/* Header */}
         <div className="text-center mb-12">
           <h1
-            className="font-black mb-2 tracking-tighter"
-            style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)', color: '#E84060', textShadow: '4px 4px 0px rgba(0,0,0,0.6)' }}
-          >ZEITREISE 1996</h1>
-          <p style={{ color: 'rgba(255,255,255,0.45)' }}>Als wir Marienstatt verließen — und das Internet noch jung war</p>
-          <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            Aktiviere den <strong style={{ color: '#E84060' }}>📺 Zeitreise!</strong>-Button rechts unten für das volle GeoCities-Erlebnis
+            className="font-black mb-2 tracking-tighter text-[#111827]"
+            style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)' }}
+          >
+            Zeitreise <span style={{ color: '#E84060' }}>1996</span>
+          </h1>
+          <p className="text-[#6b7280]">Als wir Marienstatt verließen — und das Internet noch jung war</p>
+          <p className="text-xs mt-2 text-[#9ca3af]">
+            Aktiviere den <strong style={{ color: '#E84060' }}>Zeitreise!</strong>-Button unten rechts für das volle Netscape-Navigator-Erlebnis
           </p>
         </div>
 
-        {/* Hero */}
+        {/* Hero image */}
         <div className="relative aspect-video max-w-2xl mx-auto mb-16 rounded-2xl overflow-hidden glass">
           <Image src="/grafiken/retro-90s-graduation.png" alt="Retro Graduation" fill className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <div className="absolute bottom-4 left-4 right-4">
-            <p className="text-white font-black text-xl">Abitur 1996 · Gymnasium Marienstatt</p>
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>30 Jahre ist es her</p>
+            <p className="text-white font-bold text-xl">Abitur 1996 · Gymnasium Marienstatt</p>
+            <p className="text-sm text-white/70">30 Jahre ist es her</p>
           </div>
         </div>
 
         {/* Wayback Machine */}
         <div className="max-w-3xl mx-auto mb-16">
-          <h2 className="font-black text-3xl mb-2 text-white">🕰 Wayback Machine</h2>
-          <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.38)' }}>Das Internet von 1996 — wie es wirklich aussah</p>
+          <h2 className="font-bold text-2xl mb-2 text-[#111827]">🕰 Wayback Machine</h2>
+          <p className="text-sm text-[#6b7280] mb-6">Das Internet von 1996 — wie es wirklich aussah</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {WAYBACK.map((l) => (
               <a
@@ -89,12 +93,11 @@ export default function RetroPage() {
                 href={l.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="glass rounded-xl p-4 flex items-center gap-3 transition-all hover:scale-[1.02] group"
-                style={{ border: '1px solid rgba(232,64,96,0.2)' }}
+                className="glass rounded-xl p-4 flex items-center gap-3 transition-all hover:shadow-md group"
               >
                 <span className="text-2xl">{l.icon}</span>
-                <span className="font-bold text-sm text-white group-hover:text-[#E84060] transition-colors">{l.label}</span>
-                <span className="ml-auto text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>→</span>
+                <span className="font-medium text-sm text-[#374151] group-hover:text-[#2D6A4F] transition-colors">{l.label}</span>
+                <span className="ml-auto text-xs text-[#9ca3af]">→</span>
               </a>
             ))}
           </div>
@@ -102,24 +105,24 @@ export default function RetroPage() {
 
         {/* Timeline */}
         <div className="max-w-2xl mx-auto mb-16">
-          <h2 className="font-black text-3xl mb-6 text-white">Unsere Schuljahre</h2>
-          <div className="relative border-l-2 pl-6 space-y-5" style={{ borderColor: 'rgba(45,106,79,0.35)' }}>
+          <h2 className="font-bold text-2xl mb-6 text-[#111827]">Unsere Schuljahre</h2>
+          <div className="relative border-l-2 pl-6 space-y-5" style={{ borderColor: 'rgba(45,106,79,0.2)' }}>
             {TIMELINE.map((entry) => {
               const isKey = entry.year === '1996' || entry.year === '2026';
               return (
                 <div key={entry.year} className="relative group">
                   <div
-                    className="absolute -left-8 w-4 h-4 rounded-full border-2 border-black top-1 transition-all group-hover:scale-125"
-                    style={{ background: isKey ? '#E84060' : '#2D6A4F' }}
+                    className="absolute -left-8 w-4 h-4 rounded-full border-2 top-1 transition-all group-hover:scale-125"
+                    style={{ background: isKey ? '#E84060' : '#2D6A4F', borderColor: 'white', boxShadow: '0 0 0 2px currentColor' }}
                   />
                   <div className="flex gap-3 items-start">
                     <span className="text-xl">{entry.icon}</span>
                     <div>
                       <span
                         className="font-black text-xl mr-2"
-                        style={{ color: isKey ? '#E84060' : '#52b788' }}
+                        style={{ color: isKey ? '#E84060' : '#2D6A4F' }}
                       >{entry.year}</span>
-                      <span className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>{entry.event}</span>
+                      <span className="text-sm text-[#374151]">{entry.event}</span>
                     </div>
                   </div>
                 </div>
@@ -130,24 +133,24 @@ export default function RetroPage() {
 
         {/* DM Quiz */}
         <div className="max-w-3xl mx-auto mb-16">
-          <h2 className="font-black text-3xl mb-2 text-white">💰 DM-Preisrätsel</h2>
-          <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.38)' }}>Was kostete was in 1996? Klick zum Aufdecken!</p>
+          <h2 className="font-bold text-2xl mb-2 text-[#111827]">💰 DM-Preisrätsel</h2>
+          <p className="text-sm text-[#6b7280] mb-6">Was kostete was in 1996? Klick zum Aufdecken!</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {DM_QUIZ.map((q) => (
               <button
                 key={q.item}
                 onClick={() => setRevealed((s) => ({ ...s, [q.item]: !s[q.item] }))}
-                className="glass rounded-xl p-4 text-left transition-all hover:scale-105"
-                style={{ border: revealed[q.item] ? '1px solid rgba(232,64,96,0.5)' : '1px solid rgba(45,106,79,0.2)' }}
+                className="glass rounded-xl p-4 text-left transition-all hover:shadow-md"
+                style={{ borderColor: revealed[q.item] ? 'rgba(232,64,96,0.3)' : 'rgba(0,0,0,0.07)' }}
               >
-                <p className="text-sm font-bold text-white">{q.item}</p>
+                <p className="text-sm font-semibold text-[#111827]">{q.item}</p>
                 {revealed[q.item] ? (
                   <div className="mt-2">
                     <p className="text-xl font-black" style={{ color: '#E84060' }}>{q.dm}</p>
-                    <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>≈ {q.euro} heute</p>
+                    <p className="text-xs text-[#9ca3af]">≈ {q.euro} heute</p>
                   </div>
                 ) : (
-                  <p className="mt-2 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>Tippen zum Aufdecken</p>
+                  <p className="mt-2 text-xs text-[#9ca3af]">Tippen zum Aufdecken</p>
                 )}
               </button>
             ))}
@@ -156,14 +159,14 @@ export default function RetroPage() {
 
         {/* Facts grid */}
         <div className="max-w-5xl mx-auto mb-16">
-          <h2 className="font-black text-3xl mb-6 text-white">1996 in Fakten</h2>
+          <h2 className="font-bold text-2xl mb-6 text-[#111827]">1996 in Fakten</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {FACTS.map((block) => (
-              <div key={block.cat} className="glass rounded-2xl p-5" style={{ border: '1px solid rgba(45,106,79,0.2)' }}>
-                <h3 className="font-black text-lg mb-3" style={{ color: '#E84060' }}>{block.cat}</h3>
+              <div key={block.cat} className="glass rounded-2xl p-5">
+                <h3 className="font-bold text-base mb-3" style={{ color: '#E84060' }}>{block.cat}</h3>
                 <ul className="space-y-1.5">
                   {block.items.map((item) => (
-                    <li key={item} className="text-sm flex gap-2" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                    <li key={item} className="text-sm flex gap-2 text-[#374151]">
                       <span style={{ color: '#2D6A4F' }}>·</span>{item}
                     </li>
                   ))}
@@ -175,21 +178,21 @@ export default function RetroPage() {
 
         {/* Tech comparison */}
         <div className="max-w-3xl mx-auto mb-16">
-          <h2 className="font-black text-3xl mb-6 text-white">Technik: Damals vs. Heute</h2>
+          <h2 className="font-bold text-2xl mb-6 text-[#111827]">Technik: Damals vs. Heute</h2>
           <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 glass">
             <Image src="/grafiken/1996-internet-vs-2026-ai.png" alt="1996 vs 2026 Tech" fill className="object-cover" />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="glass rounded-xl p-4" style={{ border: '1px solid rgba(45,106,79,0.25)' }}>
-              <h3 className="font-black mb-3" style={{ color: '#52b788' }}>1996</h3>
+            <div className="glass rounded-xl p-4">
+              <h3 className="font-bold mb-3 text-[#2D6A4F]">1996</h3>
               {['💾 Floppy (1,44 MB)','🌐 56k Modem','📱 Nokia ohne Kamera','💻 Pentium 166 MHz','📧 E-Mail war exotisch'].map((i) => (
-                <p key={i} className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.6)' }}>{i}</p>
+                <p key={i} className="text-xs mb-1 text-[#374151]">{i}</p>
               ))}
             </div>
-            <div className="glass rounded-xl p-4" style={{ border: '1px solid rgba(232,64,96,0.2)' }}>
-              <h3 className="font-black mb-3" style={{ color: '#E84060' }}>2026</h3>
+            <div className="glass rounded-xl p-4">
+              <h3 className="font-bold mb-3" style={{ color: '#E84060' }}>2026</h3>
               {['☁️ Terabytes in der Cloud','📡 5G / Glasfaser','📱 Supercomputer im Pocket','🤖 KI-Assistenten überall','⚡ Claude, ChatGPT, Gemini'].map((i) => (
-                <p key={i} className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.6)' }}>{i}</p>
+                <p key={i} className="text-xs mb-1 text-[#374151]">{i}</p>
               ))}
             </div>
           </div>
@@ -200,18 +203,18 @@ export default function RetroPage() {
           <div className="relative aspect-square max-w-xs mx-auto rounded-2xl overflow-hidden mb-6 glass">
             <Image src="/grafiken/zeitkapsel.png" alt="Zeitkapsel" fill className="object-cover" />
           </div>
-          <h2 className="font-black text-3xl mb-3 text-white">Die Zeitkapsel</h2>
-          <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          <h2 className="font-bold text-2xl mb-3 text-[#111827]">Die Zeitkapsel</h2>
+          <p className="text-sm text-[#6b7280] mb-6">
             Was würdest du deinem 18-jährigen Ich sagen?
           </p>
           <textarea
             placeholder="Liebe/r [Vorname], in 30 Jahren wirst du…"
-            className="w-full rounded-2xl px-5 py-4 text-white resize-none outline-none transition-all"
-            style={{ background: 'rgba(10,20,10,0.7)', border: '1px solid rgba(45,106,79,0.3)', minHeight: '120px' }}
+            className="w-full rounded-xl px-5 py-4 text-[#111827] resize-none outline-none bg-white border border-black/[0.08] focus:border-[#2D6A4F]/40 transition-colors"
+            style={{ minHeight: '120px' }}
           />
           <button
-            className="mt-4 px-8 py-3 rounded-xl font-black text-white transition-all hover:scale-105"
-            style={{ background: 'linear-gradient(135deg, #E84060, #c02040)', boxShadow: '0 4px 20px rgba(232,64,96,0.4)' }}
+            className="mt-4 px-8 py-3 rounded-lg font-bold text-white transition-all hover:opacity-90"
+            style={{ background: '#E84060' }}
           >
             Einschließen (coming soon)
           </button>
