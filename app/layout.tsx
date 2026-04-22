@@ -32,7 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link
                 href="/"
                 className="flex-shrink-0 font-black text-lg tracking-tight mr-4 transition-opacity hover:opacity-75"
-                style={{ color: '#2D6A4F' }}
+                style={{ color: '#1B4332' }}
               >
                 A(B)I&nbsp;REVIVAL
               </Link>
@@ -50,7 +50,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <Link
                 href="/claim"
                 className="flex-shrink-0 px-4 py-2 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 whitespace-nowrap"
-                style={{ background: '#2D6A4F' }}
+                style={{ background: '#1B4332' }}
               >
                 Profil sichern →
               </Link>
@@ -82,7 +82,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <footer className="border-t border-black/[0.07] py-8 bg-white">
           <div className="container mx-auto px-4 text-center">
-            <p className="font-black text-sm" style={{ color: '#2D6A4F' }}>A(B)I REVIVAL · Gymnasium Marienstatt · 1996</p>
+            <p className="font-black text-sm" style={{ color: '#1B4332' }}>A(B)I REVIVAL · Gymnasium Marienstatt · 1996</p>
             <p className="text-xs mt-1 text-[#9ca3af]">
               Homecoming 12./13. Juni 2026 · Grillhütte Schmidthahn · Organisiert von Markus Böer
             </p>

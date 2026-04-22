@@ -2,14 +2,16 @@
 
 :root {
   --bg: #f8f9fa;
-  --green: #2D6A4F;
+  --green: #1B4332;
+  --green-mid: #2D6A4F;
   --green-light: #52b788;
   --pink: #E84060;
   --fg: #111827;
   --fg-muted: #6b7280;
   --border: rgba(0, 0, 0, 0.08);
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
-  --shadow: 0 2px 8px rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.05);
+  --shadow: 0 2px 8px rgba(0,0,0,0.07), 0 8px 24px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
 }
 
 @theme inline {
@@ -24,29 +26,37 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Clean white card — replaces glass morphism */
+/* Clean white card */
 .glass {
   background: #ffffff;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
 }
 
-.glow-green { box-shadow: var(--shadow-sm); }
-.glow-pink  { box-shadow: var(--shadow-sm); }
-.anim-glow  { box-shadow: 0 4px 24px rgba(232,64,96,0.25); }
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.glow-green, .glow-pink { box-shadow: var(--shadow-sm); }
+.anim-glow { box-shadow: 0 4px 24px rgba(232,64,96,0.28); }
 
 /* ---- Animations ---- */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes ticker {
   from { transform: translateX(100vw); }
@@ -62,22 +72,21 @@ body {
   0%, 49% { visibility: visible; }
   50%, 100% { visibility: hidden; }
 }
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50%       { transform: translateY(8px) translateX(-50%); }
+}
 
-.anim-fadeInUp { animation: fadeInUp 0.5s ease-out forwards; }
-.anim-float    { animation: float 5s ease-in-out infinite; }
-.ticker-text   { display: inline-block; animation: ticker 26s linear infinite; white-space: nowrap; }
+.anim-fadeInUp   { animation: fadeInUp 0.6s ease-out forwards; }
+.anim-fadeIn     { animation: fadeIn 0.8s ease-out forwards; }
+.anim-scroll     { animation: scroll-bounce 1.8s ease-in-out infinite; }
+.ticker-text     { display: inline-block; animation: ticker 26s linear infinite; white-space: nowrap; }
 
-/* Hidden by default, shown in retro mode */
 .retro-marquee   { display: none; overflow: hidden; }
 .visitor-counter { display: none; }
 
 /* =============================================================
    AUTHENTIC NETSCAPE NAVIGATOR 1996 RETRO MODE
-   Background: #C0C0C0 — Windows 95 / Netscape default grey
-   Font: Times New Roman — Netscape proportional serif default
-   Links: #0000EE blue / #551A8B visited purple
-   Buttons: Windows 95 3D raised/sunken (outset/inset borders)
-   No neon, no Comic Sans — just authentic 1996 web
    ============================================================= */
 
 .retro,
@@ -87,11 +96,8 @@ body {
   font-family: 'Times New Roman', Times, serif !important;
 }
 
-.retro main {
-  background: #C0C0C0 !important;
-}
+.retro main { background: #C0C0C0 !important; }
 
-/* All containers get the system grey */
 .retro div {
   background: #C0C0C0 !important;
   box-shadow: none !important;
@@ -99,27 +105,23 @@ body {
   -webkit-backdrop-filter: none !important;
 }
 
-/* Glass containers become white inset boxes (like HTML tables) */
 .retro .glass {
   background: #ffffff !important;
   border: 2px inset #808080 !important;
   box-shadow: none !important;
 }
 
-/* Kill all border-radius — everything is square in 1996 */
 .retro * {
   border-radius: 0 !important;
   text-shadow: none !important;
 }
 
-/* Suppress decorative animations, but let ticker and blink run */
-.retro .anim-float,
 .retro .anim-fadeInUp,
-.retro .anim-glow {
-  animation: none !important;
-}
+.retro .anim-fadeIn,
+.retro .anim-scroll,
+.retro .anim-glow,
+.retro .card-hover { animation: none !important; transform: none !important; }
 
-/* Retro marquee: deep navy bar like NCSA / early web banners */
 .retro .retro-marquee {
   display: block !important;
   background: #000080 !important;
@@ -127,39 +129,30 @@ body {
   font-family: 'Times New Roman', Times, serif !important;
   font-size: 14px;
   padding: 3px 0;
-  border-top: 2px solid #000000;
-  border-bottom: 2px solid #000000;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
 }
-.retro .retro-marquee span,
-.retro .retro-marquee * {
+.retro .retro-marquee *,
+.retro .retro-marquee span {
   color: #ffffff !important;
   background: #000080 !important;
 }
 
 .retro .visitor-counter { display: block !important; }
 
-/* Nav: Netscape toolbar look */
 .retro nav {
   background: #C0C0C0 !important;
   border-bottom: 2px groove #808080 !important;
   backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   box-shadow: none !important;
 }
 
-/* Footer: status bar look */
 .retro footer {
   background: #C0C0C0 !important;
   border-top: 2px groove #808080 !important;
 }
 
-/* Headings: navy blue, Times New Roman, no effects */
-.retro h1,
-.retro h2,
-.retro h3,
-.retro h4,
-.retro h5,
-.retro h6 {
+.retro h1, .retro h2, .retro h3, .retro h4, .retro h5, .retro h6 {
   font-family: 'Times New Roman', Times, serif !important;
   color: #000080 !important;
   -webkit-text-fill-color: #000080 !important;
@@ -168,19 +161,12 @@ body {
   animation: none !important;
 }
 
-/* Body text: black, Times New Roman */
-.retro p,
-.retro span,
-.retro li,
-.retro label,
-.retro td,
-.retro th {
+.retro p, .retro span, .retro li, .retro label, .retro td, .retro th {
   color: #000000 !important;
   font-family: 'Times New Roman', Times, serif !important;
   text-shadow: none !important;
 }
 
-/* Links: classic Netscape blue / visited purple */
 .retro a {
   color: #0000EE !important;
   text-decoration: underline !important;
@@ -188,9 +174,7 @@ body {
 }
 .retro a:visited { color: #551A8B !important; }
 .retro a:active  { color: #FF0000 !important; }
-.retro a:hover   { color: #0000CC !important; }
 
-/* Buttons: Windows 95 3D raised / sunken on click */
 .retro button {
   background: #C0C0C0 !important;
   color: #000000 !important;
@@ -210,10 +194,7 @@ body {
   border-bottom: 2px solid #ffffff !important;
 }
 
-/* Inputs: white sunken (inset) boxes */
-.retro input,
-.retro select,
-.retro textarea {
+.retro input, .retro select, .retro textarea {
   background: #ffffff !important;
   color: #000000 !important;
   border-top: 2px solid #808080 !important;
@@ -224,12 +205,8 @@ body {
   box-shadow: none !important;
 }
 
-/* Images: grey border like default browser rendering */
-.retro img {
-  border: 2px solid #808080 !important;
-}
+.retro img { border: 2px solid #808080 !important; }
 
-/* HR: beveled like browser default hr in 1996 */
 .retro hr {
   border: 0 !important;
   border-top: 1px solid #808080 !important;
@@ -238,6 +215,4 @@ body {
   margin: 8px 0 !important;
 }
 
-.retro .blink {
-  animation: blink-retro 0.8s step-end infinite !important;
-}
+.retro .blink { animation: blink-retro 0.8s step-end infinite !important; }
